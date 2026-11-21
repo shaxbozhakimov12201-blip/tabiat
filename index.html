@@ -1,0 +1,2325 @@
+`html
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabiat Hodisalari — To'liq Interaktiv Ensiklopediya</title>
+<style>
+  :root {
+    --bg: #060b14;
+    --surface: #0f1929;
+    --surface-2: #16243b;
+    --border: #233757;
+    --text: #edf3fc;
+    --muted: #96abc8;
+    --accent: #38bdf8;
+    --accent-2: #34d399;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  #particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 50px 20px 36px;
+    background: radial-gradient(circle at 18% 20%, rgba(56,189,248,0.18), transparent 45%),
+                radial-gradient(circle at 82% 25%, rgba(168,85,247,0.18), transparent 45%),
+                linear-gradient(160deg, #071020 0%, #0d1d38 55%, #081222 100%);
+    border-bottom: 1px solid rgba(56,189,248,0.16);
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    inset: -45%;
+    background: conic-gradient(from 90deg at 50% 50%,
+      rgba(56,189,248,0.13),
+      rgba(52,211,153,0.14),
+      rgba(168,85,247,0.14),
+      rgba(251,113,133,0.1),
+      rgba(56,189,248,0.13));
+    filter: blur(60px);
+    animation: aurora-spin 18s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes aurora-spin {
+    from { transform: rotate(0deg) scale(1.1); }
+    to   { transform: rotate(360deg) scale(1.1); }
+  }
+
+  .float-icon {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    animation: float-fall linear infinite;
+    filter: drop-shadow(0 0 10px rgba(56,189,248,0.45));
+  }
+  @keyframes float-fall {
+    0%   { transform: translateY(-30px) rotate(0deg) scale(0.8); opacity: 0; }
+    15%  { opacity: 0.78; }
+    85%  { opacity: 0.55; }
+    100% { transform: translateY(230px) rotate(320deg) scale(1.1); opacity: 0; }
+  }
+
+  .hdr-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 840px;
+    margin: 0 auto;
+  }
+
+  .hdr-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 15px;
+    border-radius: 999px;
+    background: rgba(56,189,248,0.12);
+    border: 1px solid rgba(56,189,248,0.32);
+    color: #7dd3fc;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    animation: slide-down 0.6s ease both;
+  }
+
+  header h1 {
+    font-size: clamp(2rem, 4.5vw, 3.1rem);
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    background: linear-gradient(90deg, #7dd3fc, #6ee7b7, #c084fc, #fb7185, #7dd3fc);
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: slide-down 0.7s ease both, shimmer-text 6s linear infinite;
+  }
+  @keyframes shimmer-text { to { background-position: 220% center; } }
+
+  header p {
+    color: #bed3ec;
+    margin-top: 10px;
+    font-size: 0.98rem;
+    line-height: 1.6;
+    animation: slide-down 0.8s 0.15s ease both;
+  }
+
+  @keyframes slide-down {
+    from { transform: translateY(-18px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+  }
+
+  /* ===== MAIN CONTAINER ===== */
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 28px 22px 96px;
+  }
+
+  /* ===== STEP 1: HOME 5-CATEGORY HUB ===== */
+  .hub-section { animation: view-fade 0.45s cubic-bezier(0.22,1,0.36,1) both; }
+  @keyframes view-fade {
+    from { opacity: 0; transform: translateY(18px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .hub-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .hub-head h2 { font-size: 1.3rem; color: #e2e8f0; }
+
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+    gap: 22px;
+  }
+
+  .hub-card {
+    position: relative;
+    border-radius: 20px;
+    padding: 26px 22px 22px;
+    background: linear-gradient(155deg, rgba(22,36,59,0.94), rgba(11,19,33,0.98));
+    border: 1px solid var(--border);
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), border-color 0.3s, box-shadow 0.35s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 250px;
+    opacity: 0;
+    transform: translateY(28px);
+    animation: card-pop 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
+    transform-style: preserve-3d;
+  }
+  .hub-card:nth-child(1) { animation-delay: 0.05s; }
+  .hub-card:nth-child(2) { animation-delay: 0.12s; }
+  .hub-card:nth-child(3) { animation-delay: 0.19s; }
+  .hub-card:nth-child(4) { animation-delay: 0.26s; }
+  .hub-card:nth-child(5) { animation-delay: 0.33s; }
+  @keyframes card-pop { to { opacity: 1; transform: translateY(0); } }
+
+  .hub-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), var(--hub-glow, rgba(56,189,248,0.22)), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .hub-card:hover::before { opacity: 1; }
+  .hub-card:hover {
+    border-color: var(--hub-accent, #38bdf8);
+    box-shadow: 0 22px 45px rgba(0,0,0,0.6), 0 0 32px var(--hub-glow, rgba(56,189,248,0.25));
+  }
+
+  .hub-orb {
+    width: 68px; height: 68px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.2rem;
+    margin-bottom: 18px;
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .hub-card:hover .hub-orb { transform: scale(1.12) rotate(-6deg); }
+
+  .hub-card h3 { font-size: 1.3rem; font-weight: 800; color: var(--hub-accent, #7dd3fc); margin-bottom: 8px; }
+  .hub-card p { font-size: 0.87rem; color: var(--muted); line-height: 1.55; margin-bottom: 18px; }
+
+  .hub-foot {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    font-size: 0.82rem; font-weight: 700; color: #e2e8f0;
+  }
+  .hub-count {
+    padding: 4px 10px; border-radius: 999px;
+    background: rgba(255,255,255,0.07);
+    color: var(--hub-accent, #7dd3fc); font-size: 0.76rem;
+  }
+
+  /* ===== STEP 2: TOPICS VIEW ===== */
+  .topics-section { display: none; animation: view-fade 0.4s cubic-bezier(0.22,1,0.36,1) both; }
+  .topics-section.active { display: block; }
+  .hub-section.hidden { display: none; }
+
+  .top-bar {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 14px; margin-bottom: 18px;
+  }
+
+  .back-hub-btn {
+    padding: 9px 16px; border-radius: 999px;
+    border: 1px solid rgba(125,211,252,0.35);
+    background: rgba(15,25,41,0.9); color: #7dd3fc;
+    font-size: 0.86rem; font-weight: 700; cursor: pointer;
+    transition: all 0.25s;
+  }
+  .back-hub-btn:hover { background: #0284c7; color: #fff; border-color: transparent; transform: translateX(-3px); }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .filter-btn {
+    padding: 8px 14px; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--surface); color: var(--muted);
+    font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.25s;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
+  .filter-btn.active {
+    background: linear-gradient(135deg, #0284c7, #0d9488);
+    border-color: transparent; color: #fff;
+    box-shadow: 0 4px 16px rgba(14,165,233,0.35);
+  }
+
+  .right-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .search-box { position: relative; }
+  .search-box input {
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    padding: 9px 14px 9px 36px; border-radius: 999px; font-size: 0.86rem;
+    outline: none; width: 200px; transition: border-color 0.25s, width 0.25s;
+  }
+  .search-box input:focus { border-color: var(--accent); width: 235px; }
+  .search-box::before {
+    content: '🔍'; position: absolute; left: 12px; top: 50%;
+    transform: translateY(-50%); font-size: 0.82rem; opacity: 0.7;
+  }
+
+  .random-btn {
+    padding: 9px 16px; border-radius: 999px;
+    border: 1px solid rgba(192,132,252,0.42);
+    background: linear-gradient(135deg, rgba(139,92,246,0.22), rgba(56,189,248,0.2));
+    color: #e9d5ff; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.25s;
+  }
+  .random-btn:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 6px 20px rgba(168,85,247,0.35); border-color: #c084fc; }
+
+  .cat-banner {
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    background: linear-gradient(135deg, rgba(22,36,59,0.85), rgba(15,25,41,0.95));
+    border: 1px solid var(--border); border-radius: 16px; padding: 14px 20px; margin-bottom: 22px;
+  }
+  .cat-banner h2 { font-size: 1.25rem; display: flex; align-items: center; gap: 10px; }
+  .cat-banner span.sub { font-size: 0.85rem; color: var(--muted); }
+
+  /* ===== TOPICS GRID ===== */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(305px, 1fr));
+    gap: 24px;
+  }
+
+  .card {
+    background: linear-gradient(180deg, rgba(22,36,59,0.94), rgba(11,19,33,0.98));
+    border-radius: 16px; overflow: hidden; cursor: pointer; border: 1px solid var(--border);
+    opacity: 0; transform: translateY(34px) scale(0.96);
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s, border-color 0.3s;
+    display: flex; flex-direction: column; position: relative;
+  }
+  .card.visible { animation: card-in 0.5s cubic-bezier(0.22,1,0.36,1) forwards; }
+  @keyframes card-in { to { opacity: 1; transform: translateY(0) scale(1); } }
+  .card:hover {
+    border-color: var(--card-accent, #38bdf8);
+    box-shadow: 0 20px 42px rgba(0,0,0,0.6), 0 0 26px var(--card-glow, rgba(56,189,248,0.28));
+  }
+
+  .card-img-wrap { position: relative; height: 192px; overflow: hidden; background: #08101d; }
+  .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+  .card:hover .card-img-wrap img { transform: scale(1.1); }
+
+  .card-img-wrap::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.16) 50%, transparent 70%);
+    transform: translateX(-115%); transition: transform 0.65s ease;
+  }
+  .card:hover .card-img-wrap::after { transform: translateX(115%); }
+
+  .card-badges {
+    position: absolute; top: 10px; left: 10px; right: 10px;
+    display: flex; justify-content: space-between; align-items: center; pointer-events: none;
+  }
+  .badge-num {
+    background: rgba(6,11,20,0.82); color: var(--card-accent, #7dd3fc);
+    font-size: 0.76rem; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(6px);
+  }
+  .badge-video {
+    background: rgba(239,68,68,0.88); color: #fff; font-size: 0.7rem; font-weight: 700;
+    padding: 4px 9px; border-radius: 999px; display: inline-flex; align-items: center; gap: 5px;
+  }
+  .badge-video .dot { width: 6px; height: 6px; background: #fff; border-radius: 50%; animation: rec-blink 1.1s infinite; }
+  @keyframes rec-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+  .card-stat-chip {
+    position: absolute; bottom: 10px; right: 10px;
+    background: rgba(6,11,20,0.84); color: #fff; font-size: 0.74rem; font-weight: 600;
+    padding: 4px 10px; border-radius: 8px; backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.12);
+  }
+
+  .card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
+  .card-body h3 { font-size: 1.08rem; color: var(--card-accent, #7dd3fc); margin-bottom: 7px; display: flex; align-items: center; gap: 8px; }
+  .card-body p {
+    font-size: 0.86rem; color: var(--muted); line-height: 1.55;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .card-footer {
+    margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.78rem; color: #7dd3fc; font-weight: 600;
+  }
+  .empty-state { grid-column: 1 / -1; text-align: center; padding: 50px 20px; color: var(--muted); font-size: 1.05rem; }
+
+  /* ===== MODAL (ENRICHED ENCYCLOPEDIA VIEW) ===== */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(4,8,16,0); z-index: 150;
+    align-items: center; justify-content: center; padding: 14px; backdrop-filter: blur(0px);
+  }
+  .modal-overlay.active { display: flex; animation: overlay-in 0.3s ease forwards; }
+  @keyframes overlay-in { to { background: rgba(4,8,16,0.87); backdrop-filter: blur(8px); } }
+
+  .modal {
+    background: #0d1626;
+    border-radius: 22px;
+    max-width: 860px;
+    width: 100%;
+    max-height: 92vh;
+    overflow-y: auto;
+    border: 1px solid rgba(125,211,252,0.24);
+    box-shadow: 0 30px 90px rgba(0,0,0,0.85);
+    animation: modal-pop 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+    scrollbar-width: thin;
+    scrollbar-color: #2c4365 transparent;
+  }
+  @keyframes modal-pop {
+    from { transform: scale(0.82) translateY(36px); opacity: 0; }
+    to   { transform: scale(1) translateY(0); opacity: 1; }
+  }
+
+  .modal-media-wrap { position: relative; height: 340px; overflow: hidden; background: #050a12; }
+  .modal-media-wrap img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.35s ease, transform 7s ease; display: block; }
+
+  .video-stage { position: absolute; inset: 0; display: none; background: #030711; }
+  .video-stage.active { display: block; }
+  #video-canvas { width: 100%; height: 100%; display: block; }
+
+  .video-hud {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    justify-content: space-between; pointer-events: none; z-index: 4;
+  }
+  .video-top-badge {
+    align-self: flex-start; margin: 14px; padding: 5px 12px; border-radius: 999px;
+    background: rgba(220,38,38,0.88); color: #fff; font-size: 0.74rem; font-weight: 700;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .video-top-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: #fff; animation: rec-blink 1s infinite; }
+
+  .video-controls-bar {
+    pointer-events: auto; display: flex; align-items: center; gap: 10px;
+    padding: 10px 16px 12px; background: linear-gradient(to top, rgba(4,8,16,0.95) 30%, transparent);
+  }
+  .v-play-btn {
+    width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.28);
+    background: rgba(14,165,233,0.85); color: #fff; font-size: 0.9rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .v-progress-wrap { flex: 1; height: 6px; background: rgba(255,255,255,0.22); border-radius: 99px; overflow: hidden; cursor: pointer; }
+  .v-progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #38bdf8, #34d399); border-radius: 99px; }
+  .v-time { font-size: 0.76rem; font-variant-numeric: tabular-nums; color: #cbd5e1; min-width: 72px; text-align: right; }
+
+  .modal-close-x {
+    position: absolute; top: 14px; right: 14px; z-index: 8; width: 36px; height: 36px;
+    border-radius: 50%; border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(6,11,20,0.75); color: #fff; font-size: 1.05rem; cursor: pointer;
+    backdrop-filter: blur(6px); transition: background 0.2s, transform 0.2s;
+  }
+  .modal-close-x:hover { background: rgba(239,68,68,0.9); transform: rotate(90deg); }
+
+  .overlay-title-bar {
+    position: absolute; bottom: 0; left: 0; right: 0; padding: 38px 24px 14px;
+    background: linear-gradient(to top, rgba(8,14,26,0.96) 18%, transparent);
+    pointer-events: none; z-index: 3; transition: all 0.25s;
+  }
+  .overlay-title-bar.hide-for-video {
+    bottom: 46px; background: linear-gradient(to top, rgba(8,14,26,0.72), transparent); padding: 20px 24px 8px;
+  }
+  .overlay-title-bar h2 { font-size: 1.55rem; font-weight: 800; color: #fff; text-shadow: 0 2px 12px rgba(0,0,0,0.65); }
+  .overlay-sub { font-size: 0.82rem; color: #93c5fd; font-weight: 600; margin-bottom: 3px; }
+
+  .arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(6,11,20,0.7); border: 1px solid rgba(255,255,255,0.16);
+    color: #fff; font-size: 1.5rem; width: 38px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; border-radius: 10px; backdrop-filter: blur(4px); z-index: 7; transition: background 0.2s;
+  }
+  .arrow:hover { background: rgba(2,132,199,0.88); }
+  .arrow.prev { left: 12px; }
+  .arrow.next { right: 12px; }
+
+  .thumb-strip {
+    display: flex; gap: 10px; padding: 12px 24px 6px; overflow-x: auto; scrollbar-width: none; align-items: center;
+  }
+  .thumb-strip::-webkit-scrollbar { display: none; }
+  .thumb-item {
+    position: relative; width: 96px; height: 60px; border-radius: 9px; overflow: hidden;
+    cursor: pointer; border: 2px solid transparent; opacity: 0.65; flex-shrink: 0; transition: all 0.2s; background: #0a1425;
+  }
+  .thumb-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .thumb-item.active { border-color: var(--accent); opacity: 1; transform: scale(1.06); box-shadow: 0 4px 14px rgba(56,189,248,0.35); }
+  .thumb-item:hover { opacity: 0.96; }
+
+  .thumb-video-overlay {
+    position: absolute; inset: 0; background: rgba(6,11,20,0.52);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: #fff; font-size: 0.7rem; font-weight: 700; gap: 2px;
+  }
+  .thumb-video-overlay span.play-ico {
+    width: 24px; height: 24px; border-radius: 50%; background: rgba(239,68,68,0.92);
+    display: flex; align-items: center; justify-content: center; font-size: 0.72rem; padding-left: 2px;
+  }
+
+  .gallery-nav { display: flex; justify-content: center; gap: 7px; padding: 4px 0 6px; }
+  .gallery-nav button { width: 9px; height: 9px; border-radius: 50%; border: none; background: #2b3f5e; cursor: pointer; transition: all 0.2s; }
+  .gallery-nav button.active { background: var(--accent); width: 22px; border-radius: 99px; }
+
+  /* MODAL DETAILED INFO SECTIONS */
+  .modal-content { padding: 14px 24px 26px; }
+
+  .sfx-bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.24);
+    border-radius: 12px; padding: 10px 15px; margin-bottom: 18px; flex-wrap: wrap;
+  }
+  .sfx-info { font-size: 0.86rem; color: #bae6fd; display: flex; align-items: center; gap: 8px; }
+  .sfx-btn {
+    padding: 8px 16px; border-radius: 999px; border: none;
+    background: linear-gradient(135deg, #0284c7, #2563eb); color: #fff;
+    font-size: 0.84rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .sfx-btn.playing { background: linear-gradient(135deg, #059669, #10b981); }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .metric-box {
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 11px 10px; text-align: center;
+  }
+  .metric-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.45px; }
+  .metric-val { font-size: 0.88rem; font-weight: 700; color: #f8fafc; margin-top: 5px; line-height: 1.3; }
+
+  .info-block {
+    background: rgba(22,36,59,0.55);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+  }
+  .info-block h4 {
+    font-size: 0.96rem;
+    color: #7dd3fc;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .info-block p {
+    color: #d6e2f0;
+    line-height: 1.75;
+    font-size: 0.93rem;
+    margin-bottom: 8px;
+  }
+  .info-block p:last-child { margin-bottom: 0; }
+
+  .steps-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .steps-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.91rem;
+    line-height: 1.6;
+    color: #d6e2f0;
+  }
+  .step-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: rgba(56,189,248,0.18);
+    border: 1px solid rgba(56,189,248,0.4);
+    color: #7dd3fc;
+    font-size: 0.76rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .two-col-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .two-col-info .info-block { margin-bottom: 0; }
+
+  .fact-box {
+    background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(56,189,248,0.1));
+    border: 1px solid rgba(52,211,153,0.3);
+    border-left: 4px solid #34d399;
+    border-radius: 14px;
+    padding: 15px 18px;
+    margin-bottom: 18px;
+  }
+  .fact-box h4 {
+    color: #6ee7b7;
+    font-size: 0.96rem;
+    margin-bottom: 9px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .fact-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .fact-list li {
+    font-size: 0.89rem;
+    line-height: 1.6;
+    color: #d1fae5;
+    padding-left: 16px;
+    position: relative;
+  }
+  .fact-list li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: #34d399;
+    font-size: 0.78rem;
+  }
+
+  .modal-actions { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .nav-item-btn {
+    padding: 9px 16px; background: var(--surface-2); border: 1px solid var(--border);
+    color: var(--text); border-radius: 10px; cursor: pointer; font-size: 0.86rem; font-weight: 600;
+  }
+  .nav-item-btn:hover { border-color: var(--accent); background: #1e3252; }
+  .close-btn {
+    padding: 9px 26px; background: linear-gradient(135deg, #0284c7, #0d9488);
+    color: #fff; border: none; border-radius: 10px; cursor: pointer; font-size: 0.9rem; font-weight: 600;
+  }
+
+  /* ===== FLOATING AMBIENT AUDIO ===== */
+  .audio-dock { position: fixed; bottom: 20px; right: 20px; z-index: 200; display: flex; align-items: center; gap: 8px; }
+  .ambient-switch {
+    background: rgba(15,25,41,0.92); border: 1px solid var(--border); color: #bae6fd;
+    padding: 8px 14px; border-radius: 999px; font-size: 0.8rem; font-weight: 600;
+    cursor: pointer; backdrop-filter: blur(8px); box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+  }
+  #music-btn {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, #0284c7, #10b981); border: 2px solid #7dd3fc;
+    color: #fff; font-size: 1.4rem; cursor: pointer; box-shadow: 0 6px 22px rgba(0,0,0,0.55);
+    display: flex; align-items: center; justify-content: center;
+  }
+  #music-btn.playing { animation: music-pulse 1.8s ease-in-out infinite; }
+  @keyframes music-pulse {
+    0%, 100% { box-shadow: 0 6px 22px rgba(0,0,0,0.5), 0 0 0 0 rgba(56,189,248,0.55); }
+    50%       { box-shadow: 0 6px 22px rgba(0,0,0,0.5), 0 0 0 14px rgba(56,189,248,0); }
+  }
+  .eq { display: none; gap: 2.5px; align-items: flex-end; height: 18px; }
+  .eq.on { display: flex; }
+  .eq span { width: 3px; background: #fff; border-radius: 2px; animation: eq-bar 0.55s ease-in-out infinite alternate; }
+  .eq span:nth-child(1) { animation-duration: 0.45s; }
+  .eq span:nth-child(2) { animation-duration: 0.7s; animation-delay: 0.1s; }
+  .eq span:nth-child(3) { animation-duration: 0.4s; animation-delay: 0.2s; }
+  .eq span:nth-child(4) { animation-duration: 0.6s; animation-delay: 0.05s; }
+  @keyframes eq-bar { from { height: 4px; } to { height: 17px; } }
+
+  #music-toast {
+    position: fixed; bottom: 86px; right: 20px; z-index: 201;
+    background: rgba(15,25,41,0.95); color: #7dd3fc; font-size: 0.8rem;
+    padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(56,189,248,0.3);
+    backdrop-filter: blur(8px); opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none;
+  }
+  #music-toast.show { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 720px) {
+    .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    .two-col-info { grid-template-columns: 1fr; }
+    .modal-media-wrap { height: 240px; }
+    .search-box input, .search-box input:focus { width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<header id="hdr">
+  <div class="hdr-inner">
+    <div class="hdr-pill">🎬 Rasmlar + Jonli Mini-Video + To'liq Ilmiy Ma'lumotlar</div>
+    <h1>⚡ Tabiat Hodisalari</h1>
+    <p>Bo'limlardan birini tanlang — har bir yo'nalishda 6 tadan hayratlanarli hodisa, rasmlar, jonli mini-video va batafsil ilmiy ensiklopediya jamlangan!</p>
+  </div>
+</header>
+
+<div class="container">
+  <!-- STEP 1: 5 MAIN CATEGORY HUB CARDS -->
+  <section class="hub-section" id="hub-section">
+    <div class="hub-head">
+      <h2>🧭 Yo'nalishni tanlang</h2>
+      <button class="random-btn" onclick="openRandom()">🎲 Tasodifiy hodisa</button>
+    </div>
+    <div class="hub-grid" id="hub-grid"></div>
+  </section>
+
+  <!-- STEP 2: CATEGORY TOPICS VIEW -->
+  <section class="topics-section" id="topics-section">
+    <div class="top-bar">
+      <button class="back-hub-btn" onclick="goHome()">⬅ Bosh sahifa</button>
+      <div class="filters" id="filters"></div>
+      <div class="right-tools">
+        <div class="search-box">
+          <input type="text" id="search-input" placeholder="Mavzu qidirish...">
+        </div>
+        <button class="random-btn" onclick="openRandom()">🎲 Tasodifiy</button>
+      </div>
+    </div>
+
+    <div class="cat-banner" id="cat-banner">
+      <h2 id="cat-banner-title"></h2>
+      <span class="sub" id="cat-banner-sub"></span>
+    </div>
+
+    <div class="grid" id="grid"></div>
+  </section>
+</div>
+
+<!-- STEP 3: ENRICHED MODAL -->
+<div class="modal-overlay" id="overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-media-wrap">
+      <button class="modal-close-x" onclick="closeModal()" title="Yopish">✕</button>
+      <img id="modal-img" src="" alt="">
+
+      <div class="video-stage" id="video-stage">
+        <canvas id="video-canvas"></canvas>
+        <div class="video-hud">
+          <div class="video-top-badge"><span class="dot"></span> JONLI MINI-VIDEO • HD</div>
+          <div class="video-controls-bar" onclick="event.stopPropagation()">
+            <button class="v-play-btn" id="v-play-btn" onclick="toggleVideoPlay()">⏸</button>
+            <div class="v-progress-wrap" onclick="seekVideo(event)">
+              <div class="v-progress-fill" id="v-progress-fill"></div>
+            </div>
+            <div class="v-time" id="v-time">0:00 / 0:12</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="arrow prev" onclick="event.stopPropagation();changeSlide(-1)">&#8249;</button>
+      <button class="arrow next" onclick="event.stopPropagation();changeSlide(1)">&#8250;</button>
+
+      <div class="overlay-title-bar" id="overlay-title-bar">
+        <div class="overlay-sub" id="modal-cat"></div>
+        <h2 id="modal-title"></h2>
+      </div>
+    </div>
+
+    <div class="thumb-strip" id="thumb-strip"></div>
+    <div class="gallery-nav" id="gallery-nav"></div>
+
+    <div class="modal-content">
+      <div class="sfx-bar">
+        <div class="sfx-info">🎧 <span id="sfx-desc">Ushbu hodisa tovushini eshiting</span></div>
+        <button class="sfx-btn" id="sfx-play-btn" onclick="playCurrentPhenomenonSound()">
+          <span id="sfx-btn-icon">🔊</span>
+          <span id="sfx-btn-text">Hodisa tovushi</span>
+        </button>
+      </div>
+
+      <!-- 4 Metrics -->
+      <div class="metrics-grid" id="metrics-grid"></div>
+
+      <!-- Detailed Overview -->
+      <div class="info-block">
+        <h4>📖 Batafsil ma'lumot</h4>
+        <div id="modal-desc-wrap"></div>
+      </div>
+
+      <!-- How it forms -->
+      <div class="info-block">
+        <h4>🔬 Qanday hosil bo'ladi?</h4>
+        <ul class="steps-list" id="modal-steps"></ul>
+      </div>
+
+      <!-- Records & Impact -->
+      <div class="two-col-info">
+        <div class="info-block">
+          <h4>🌍 Mashhur joylar va Rekordlar</h4>
+          <p id="modal-records"></p>
+        </div>
+        <div class="info-block">
+          <h4>🛡️ Tabiatga ta'siri va Xavfsizlik</h4>
+          <p id="modal-safety"></p>
+        </div>
+      </div>
+
+      <!-- Interesting Facts -->
+      <div class="fact-box">
+        <h4>💡 Qiziqarli faktlar</h4>
+        <ul class="fact-list" id="modal-facts"></ul>
+      </div>
+
+      <div class="modal-actions">
+        <div style="display:flex;gap:8px;">
+          <button class="nav-item-btn" onclick="stepPhenomenon(-1)">⬅ Oldingi</button>
+          <button class="nav-item-btn" onclick="stepPhenomenon(1)">Keyingi ➡</button>
+        </div>
+        <button class="close-btn" onclick="closeModal()">✕ Yopish</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING AMBIENT AUDIO -->
+<div class="audio-dock">
+  <button class="ambient-switch" id="ambient-mode-btn" onclick="cycleAmbient()">🌧️ Yomg'ir foni</button>
+  <button id="music-btn" title="Fon tovushi" onclick="toggleMusic()">
+    <span id="music-icon">🎵</span>
+    <div class="eq" id="eq-bars"><span></span><span></span><span></span><span></span></div>
+  </button>
+</div>
+<div id="music-toast">🔊 Tabiat tovushi yoqildi</div>
+
+<script>
+/* ================= 5 MAIN CATEGORIES ================= */
+const categories = [
+  { id: "all", icon: "🌍", title: "Barchasi", desc: "Atmosfera, Yer, Suv va Kosmosdagi barcha 24 ta hayratlanarli tabiat hodisasini bir joyda tomosha qiling.", countLabel: "24 ta mavzu", accent: "#38bdf8", glow: "rgba(56,189,248,0.28)" },
+  { id: "Atmosfera", icon: "⚡", title: "Atmosfera", desc: "Chaqmoq, tornado, bahaybat dovullar, do'l, qum bo'ronlari va osmon bulutlari sirlari.", countLabel: "6 ta mavzu", accent: "#a78bfa", glow: "rgba(167,139,250,0.3)" },
+  { id: "Yer va Tog'", icon: "🌋", title: "Yer va Tog'", desc: "Vulqonlar, qaynoq geyzerlar, qor ko'chkilari, zilzila yoriqlari, loy vulqonlari va karst g'orlari.", countLabel: "6 ta mavzu", accent: "#fb7185", glow: "rgba(251,113,133,0.3)" },
+  { id: "Suv va Okean", icon: "🌊", title: "Suv va Okean", desc: "Sunami to'lqinlari, nurli dengiz, suv girdoblari, muzlik qulashi, suv qo'yuni va muz pufakchalari.", countLabel: "6 ta mavzu", accent: "#22d3ee", glow: "rgba(34,211,238,0.3)" },
+  { id: "Nur va Kosmos", icon: "🌌", title: "Nur va Kosmos", desc: "Shimoliy yog'du, qo'sh kamalak, meteor yomg'iri, Quyosh tutilishi, Qonli Oy va Quyosh galosi.", countLabel: "6 ta mavzu", accent: "#34d399", glow: "rgba(52,211,153,0.3)" }
+];
+
+/* ================= 24 ENRICHED PHENOMENA ================= */
+const phenomena = [
+  /* --- ATMOSFERA (6) --- */
+  {
+    id: "lightning", animType: "lightning", sfxType: "lightning", icon: "⚡",
+    title: "Chaqmoq va Momaqaldiroq", category: "Atmosfera", accent: "#38bdf8", glow: "rgba(56,189,248,0.32)",
+    chip: "⚡ 30 000 °C", sfxLabel: "Chaqmoq chaqnashi va momaqaldiroq zarbasi",
+    metrics: [
+      { label: "Harorati", val: "~30 000 °C" },
+      { label: "Kuchlanishi", val: "100 mln – 1 mlrd V" },
+      { label: "Tezligi", val: "~440 km/sek" },
+      { label: "Xavf darajasi", val: "Yuqori" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/2/2f/Lightning_Ground_Storm_%28Unsplash%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/01/Thunderstorm_over_Corfu_-_Lightning_Strikes.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/7d/Lightning_NOAA.jpg"
+    ],
+    desc: [
+      "Chaqmoq — atmosferadagi eng qudratli tabiiy elektr hodisasi bo'lib, momaqaldiroq bulutlari (kumulonimbus) ichida yoki bulut bilan yer yuzasi o'rtasida ulkan elektr zaryadlarining bir lahzada razryadlanishidir. Har bir chaqmoq chaqnashi bir soniyaning mingdan bir bo'lagida milliardlab joul energiya ajratib chiqaradi.",
+      "Chaqmoq o'tgan tor havo kanali shu qadar tez qiziydiki (Quyosh sirtidan 5 baravar issiq), atrofdagi havo keskin portlab kengayadi va kuchli tovush to'lqinini — momaqaldiroqni hosil qiladi. Yorug'lik tovushdan million marta tez tarqalgani uchun biz avval chaqmoqni ko'ramiz, so'ngra gumburlashni eshitamiz."
+    ],
+    steps: [
+      "Bulut ichidagi kuchli havo oqimlari muz kristallari va do'l donalarini bir-biriga urib, ishqalanish orqali statik elektr zaryadlarini hosil qiladi.",
+      "Bulutning yuqori qismi musbat (+), pastki qismi esa manfiy (–) zaryadlanadi; bu esa yer yuzasida qarama-qarshi musbat zaryadni tortib to'playdi.",
+      "Kuchlanish havoning izolyatsiya chegarasidan oshgach, «lider» deb ataluvchi ionlashgan havo kanali ochiladi va asosiy yorqin elektr razryadi yuz beradi."
+    ],
+    records: "Dunyodagi «chaqmoqlar poytaxti» Venesueladagi Marakaybo ko'li hisoblanadi — bu yerda yiliga 260 kecha uzluksiz chaqmoq chaqnaydi. Eng uzun chaqmoq esa 2020-yilda AQShda qayd etilgan bo'lib, 768 km masofani bosib o'tgan.",
+    safety: "Chaqmoq tabiatda azotni tuproq uchun foydali o'g'itga aylantirishga yordam beradi. Ammo odamlar uchun xavfli: momaqaldiroq paytida baland yakka daraxtlar tagida turmaslik, ochiq maydon va suv havzalaridan uzoqlashib, bino yoki avtomobil ichiga kirish zarur.",
+    facts: [
+      "Chaqmoq bir joyga bir necha marta tushishi mumkin — masalan, Nyu-Yorkdagi Empire State Building binosiga yiliga o'rtacha 20–25 marta chaqmoq uriladi.",
+      "Chaqmoqning kengligi atigi 2–3 santimetr bo'lsa-da, uning yorug'ligi 100 kilometr uzoqdan ko'rinadi.",
+      "Momaqaldiroq ovozi necha soniyadan keyin eshitilsa, uni 3 ga bo'lib, chaqmoq sizdan necha kilometr uzoqlikda ekanini hisoblash mumkin."
+    ]
+  },
+  {
+    id: "tornado", animType: "tornado", sfxType: "wind", icon: "🌪️",
+    title: "Tornado (Qo'yun)", category: "Atmosfera", accent: "#a78bfa", glow: "rgba(167,139,250,0.32)",
+    chip: "💨 480 km/soat", sfxLabel: "Shiddatli aylanma bo'ron shamoli",
+    metrics: [
+      { label: "Shamol tezligi", val: "110 – 480 km/soat" },
+      { label: "Yo'l uzunligi", val: "5 – 100+ km" },
+      { label: "Shkala", val: "EF0 – EF5" },
+      { label: "Xavf darajasi", val: "O'ta xavfli" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/8/86/Evolution_of_a_Tornado.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/43/Tornado_over_the_Kansas_plains_%28Nssl0232_-_Flickr_-_NOAA_Photo_Library%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/71/Erick_Oklahoma_Tornado.jpg"
+    ],
+    desc: [
+      "Tornado (yoki quyun) — momaqaldiroq bulutining pastki qismidan yer yuzasigacha tushadigan, o'ta katta burchak tezligida aylanuvchi havo voronkasidir. Uning shakli ko'pincha fil xartumi yoki voronkaga o'xshaydi, rangi esa tortib olgan chang va suv bug'iga qarab oq, kulrang yoki qop-qora bo'ladi.",
+      "Tornadolar odatda bir necha daqiqadan bir soatgacha davom etadi, ammo ularning ichidagi havo bosimi keskin pasayishi va shamol kuchi tufayli yo'lidagi uylarni, daraxtlarni va hatto og'ir texnikalarni ham havoga ko'tarib uloqtirishi mumkin."
+    ],
+    steps: [
+      "Yer yuzasiga yaqin iliq va nam havo massasi yuqoridagi sovuq va quruq havo qatlami bilan to'qnashib, kuchli beqarorlik yaratadi.",
+      "Turli balandliklarda shamolning tezligi va yo'nalishi farq qilishi (wind shear) natijasida gorizontal aylanuvchi havo trubasi paydo bo'ladi.",
+      "Kuchli ko'taruvchi oqim bu aylanma ustunni vertikal holatga keltirib, «mezosiklon» hosil qiladi va undan pastga tornado voronkasi tushadi."
+    ],
+    records: "Eng ko'p tornadolar AQShning «Tornado xiyoboni» (Oklahoma, Kanzas, Texas) hududida kuzatiladi — yiliga 1000 dan ortiq. Tarixdagi eng keng tornado 2013-yilda El-Renoda (Oklahoma) qayd etilgan bo'lib, diametri 4,2 km ga yetgan.",
+    safety: "Tornado xavfi e'lon qilinganda yerto'la, podval yoki derazasiz ichki xonaga (masalan, hammomga) kirib, boshni qalin yostiq yoki matras bilan himoya qilish shart. Avtomobilda qolmaslik va ko'prik ostiga bekinmaslik kerak.",
+    facts: [
+      "1925-yildagi «Uch shtat tornadosi» 352 km masofani uzluksiz bosib o'tib, 3,5 soat davom etgan.",
+      "Ba'zan bitta kuchli superyacheyka buluti bir vaqtning o'zida 2 yoki 3 ta egizak tornadoni vujudga keltirishi mumkin.",
+      "Kuchsiz tornadolar suv ustidan o'tganda mayda baliqlarni havoga tortib, bir necha kilometr nariga «baliq yomg'iri» qilib yog'dirgan holatlar qayd etilgan."
+    ]
+  },
+  {
+    id: "hurricane", animType: "hurricane", sfxType: "wind", icon: "🌀",
+    title: "Dovul va Tayfun (Siklon)", category: "Atmosfera", accent: "#60a5fa", glow: "rgba(96,165,250,0.32)",
+    chip: "🌀 1000 km diametr", sfxLabel: "Okean ustidagi kuchli tropik bo'ron",
+    metrics: [
+      { label: "Diametri", val: "300 – 1 000+ km" },
+      { label: "Shamol tezligi", val: "120 – 320 km/soat" },
+      { label: "Umr davomiyligi", val: "5 – 15 kun" },
+      { label: "Markazi", val: "Sokin «Dovul ko'zi»" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/a/ac/Hurricane_Isabel_eye_from_ISS.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8f/Hurricane_Wilma_eye.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3a/ISS-43_Super_Typhoon_Maysak_-_Eye.jpg"
+    ],
+    desc: [
+      "Tropik siklonlar — joylashuviga qarab Atlantikada «dovul» (hurricane), Tinch okeanida «tayfun», Hind okeanida esa «siklon» deb ataladigan ulkan aylanma atmosfera bo'ronlaridir. Ular koinotdan qaraganda xuddi gigant spiral galaktikaga o'xshab ko'rinadi.",
+      "Tornadodan farqli o'laroq, dovullar yuzlab kilometr kenglikni egallaydi va haftalab davom etadi. Ular nafaqat kuchli shamol, balki to'xtovsiz jala yomg'irlar va okean suvining qirg'oqqa toshib chiqishini (shtorm toshqinini) olib keladi."
+    ],
+    steps: [
+      "Tropik okean suvi kamida +26,5 °C gacha qiziganda, suv yuzasidan juda ko'p miqdorda iliq bug' atmosferaga ko'tariladi.",
+      "Bug' yuqorida sovib bulutga aylanganda katta miqdorda yashirin issiqlik ajraladi va bu markazdagi havo bosimini keskin tushiradi.",
+      "Yerning o'z o'qi atrofida aylanishi (Koriolis kuchi) tufayli markazga oqib kelayotgan shamollar spiral shaklida aylana boshlaydi."
+    ],
+    records: "Tarixdagi eng yirik tropik siklon 1979-yildagi «Tip» tayfuni bo'lib, diametri 2 220 kilometrga yetgan (deyarli yarim AQSh hududiga teng). Eng kuchli shamol esa 2015-yildagi «Patrisiya» dovulida (345 km/soat) qayd etilgan.",
+    safety: "Dovul quruqlikka chiqqach, iliq okean «yoqilg'isi»dan uzilgani sababli asta-sekin kuchsizlanib so'nadi. Xavfli hududlarda aholiga bir necha kun oldin evakuatsiya ogohlantirishi beriladi.",
+    facts: [
+      "Dovulning qoq markazidagi «Dovul ko'zi» (diametri 20–50 km) ichida havo sokin, osmon esa moviy va quyoshli bo'ladi.",
+      "Shimoliy yarimsharda dovullar soat strelkasiga qarshi, Janubiy yarimsharda esa soat strelkasi bo'ylab aylanadi.",
+      "Bitta yirik dovul bir kunda 800 gigavattdan ortiq issiqlik energiyasini chiqaradi — bu insoniyatning bir necha oylik elektr iste'moliga teng."
+    ]
+  },
+  {
+    id: "hailstorm", animType: "hail", sfxType: "rain", icon: "🧊",
+    title: "Kuchli Do'l yog'ishi", category: "Atmosfera", accent: "#38bdf8", glow: "rgba(56,189,248,0.28)",
+    chip: "🧊 15+ sm muz toshi", sfxLabel: "Muz donalarining shitirlab urilishi",
+    metrics: [
+      { label: "Tushish tezligi", val: "40 – 160 km/soat" },
+      { label: "Eng yirik do'l", val: "20 sm (1 kg gacha)" },
+      { label: "Balandlik", val: "5 – 12 km" },
+      { label: "Mavsum", val: "Bahor va Yoz" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/9/94/Hailstones.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/cc/Hail_Storm.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/da/Hailstones-size.jpg"
+    ],
+    desc: [
+      "Do'l — yoz va bahor oylarida kuchli momaqaldiroq bulutlaridan yog'adigan qattiq muz donalaridir. Garchi yerda havo +30 °C issiq bo'lsa ham, bulutlarning 6–10 kilometr balandlikdagi qatlamlarida harorat –30 °C dan past bo'lgani uchun muz shakllanadi.",
+      "Do'l yog'ishi odatda 5–15 daqiqa davom etadi, ammo shu qisqa vaqt ichida qishloq xo'jaligi ekinlarini, bog'larni, avtomobil oynalarini va uylarning tomlarini jiddiy shikastlashi mumkin."
+    ],
+    steps: [
+      "Muzlagan kichik yomg'ir tomchisi kuchli ko'taruvchi shamol ta'sirida bulutning o'ta sovuq yuqori qismiga olib chiqiladi.",
+      "U yerda sovuq suv tomchilari muz yadrosiga yopishib, yangi muz qatlamini hosil qiladi va tosh og'irlashadi.",
+      "Ko'taruvchi oqim endi muz sharini ushlab turolmay qolganda, do'l katta tezlikda yerga qulab tushadi."
+    ],
+    records: "Dunyodagi eng og'ir do'l 1986-yilda Bangladeshda (1,02 kg), eng katta diametrli do'l esa 2010-yilda AQShning Janubiy Dakota shtatida (20,3 sm — voleybol to'pidek) qayd etilgan.",
+    safety: "O'zbekistonning Farg'ona vodiysi va tog'oldi hududlarida bahorda do'lga qarshi maxsus «do'l uruvchi» raketalar qo'llaniladi — ular bulutga kumush yodid sepib, yirik muz hosil bo'lishini to'xtatadi.",
+    facts: [
+      "Yirik do'l donasini ikkiga bo'lsangiz, ichida daraxt tanasidagi kabi oq va shaffof halqalarni ko'rasiz — har bir halqa bulut ichida necha marta ko'tarilib tushganini ko'rsatadi.",
+      "Toshdek qattiq do'llar yerga 150 km/soatdan ortiq tezlikda urilishi mumkin.",
+      "Do'l qishda deyarli yog'maydi, chunki qishda kuchli issiq ko'taruvchi havo oqimlari bo'lmaydi."
+    ]
+  },
+  {
+    id: "sandstorm", animType: "sandstorm", sfxType: "wind", icon: "🏜️",
+    title: "Qum bo'roni (Habub)", category: "Atmosfera", accent: "#f59e0b", glow: "rgba(245,158,11,0.3)",
+    chip: "🏜️ 1.5 km devor", sfxLabel: "Cho'l shamoli va qum guvillashi",
+    metrics: [
+      { label: "Devor balandligi", val: "1 – 2 km gacha" },
+      { label: "Harakat tezligi", val: "60 – 100 km/soat" },
+      { label: "Ko'rish masofasi", val: "0 – 5 metr" },
+      { label: "Hududlar", val: "Sahara, Qizilqum, Arizona" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/a/af/Haboob_%28dust_storm%29_in_suburbs_of_Phoenix_Arizona.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/10/Approaching_dust_storm_%28haboob%29%2C_Cimarron_County%2C_OK.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/d3/Haboob_Ransom_Canyon_Texas_2009.jpg"
+    ],
+    desc: [
+      "Habub (arabcha «kuchli shamol») — cho'l va yarim cho'l hududlarida ulkan qum va chang devori shaklida bostirib keluvchi atmosfera hodisasidir. Uning balandligi ko'pincha osmono'par binolardan bir necha barobar baland bo'lib, kunduzi ham atrofni bir zumda qizg'ish-qorong'i tunga aylantiradi.",
+      "Mayda chang zarralari havoda minglab kilometr masofaga uchib borib, boshqa qit'alardagi havo sifati va ekotizimlarga ham ta'sir ko'rsatadi."
+    ],
+    steps: [
+      "Issiq cho'l ustida momaqaldiroq buluti yemirilganda, undan pastga sovuq va og'ir havo oqimi shiddat bilan tushadi.",
+      "Sovuq havo yerga urilib, barcha yo'nalishlarga kuchli to'lqin bo'lib tarqaladi va quruq tuproq hamda qumni havoga ko'taradi.",
+      "Yuzaga kelgan ulkan qum devori oldindagi issiq havoni siqib chiqarib, soatiga 80 km tezlikda oldinga siljiydi."
+    ],
+    records: "Har yili Sahara cho'lidan shamollar taxminan 180 million tonna changni havoga ko'taradi. 2015-yilda Yaqin Sharqni qoplagan chang bo'roni koinotdan bir nechta davlat hududini qamrab olgan holda ko'ringan.",
+    safety: "Qum bo'roni boshlanganda nafas olish yo'llarini himoyalash uchun nam mato yoki niqob taqish, ko'zlarni yopiq ko'zoynak bilan saqlash va yo'lda avtomobilni chetga olib chiroqlarni o'chirib kutish tavsiya etiladi.",
+    facts: [
+      "Sahara cho'lidan Atlantika okeani osha uchib borgan chang zarralari Amazon o'rmonlari uchun asosiy fosfor o'g'iti manbai hisoblanadi!",
+      "Qum bo'roni zarralari ishqalanishidan havoda kuchli statik elektr hosil bo'lib, ba'zida radioaloqani uzib qo'yadi.",
+      "Mars sayyorasida esa butun sayyorani bir necha oyga qamrab oluvchi gigant chang bo'ronlari sodir bo'ladi."
+    ]
+  },
+  {
+    id: "mammatus", animType: "mammatus", sfxType: "aurora", icon: "☁️",
+    title: "Mamatli bulutlar (Mammatus)", category: "Atmosfera", accent: "#c084fc", glow: "rgba(192,132,252,0.3)",
+    chip: "☁️ Noyob osmon naqshi", sfxLabel: "Baland atmosfera shamoli va mayin gumbur",
+    metrics: [
+      { label: "Hosil bo'lishi", val: "Sovuq havo cho'kishi" },
+      { label: "Pufak o'lchami", val: "1 – 3 km" },
+      { label: "Davomiyligi", val: "15 – 45 daqiqa" },
+      { label: "Eng go'zal vaqt", val: "Quyosh botishi" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/4/45/Mammatus_clouds_2008-04-01.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/cc/Mammatus_Cumulonimbus.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/94/Cirrus_clouds_mar08.jpg"
+    ],
+    desc: [
+      "Mamatli (Mammatus) bulutlar — osmonning eng g'ayrioddiy va suratbop hodisalaridan biri bo'lib, kuchli bo'ron bulutlarining pastki qismida osilib turuvchi silliq, qopchiqsimon yoki shar shaklidagi hosilalardir.",
+      "Oddiy bulutlar issiq havo yuqoriga ko'tarilganda tekis asosli bo'lib shakllansa, Mammatus bulutlari aksincha — sovuq va og'ir havoning bulutdan pastga qarab cho'kishi natijasida «teskari» shaklda paydo bo'ladi."
+    ],
+    steps: [
+      "Kuchli momaqaldiroq bulutining yuqori qismida ko'p miqdorda muz kristallari va suv tomchilari to'planadi.",
+      "Bulut ostidagi quruq havoga tushgan muz bug'lanib, havoni keskin sovutadi va uni og'irlashtiradi.",
+      "Sovigan og'ir havo cho'ntaklari pastga osilib tushib, bir tekis joylashgan pufaksimon naqshlarni hosil qiladi."
+    ],
+    records: "Eng mashhur va yorqin Mammatus bulutlari asosan AQShning Buyuk Tekisliklarida (superyacheyka bo'ronlaridan keyin), shuningdek Avstraliya va Yevropada bahor-yoz oylarida kuzatiladi.",
+    safety: "Mamatli bulutlarning o'zi xavf tug'dirmaydi va odatda kuchli momaqaldiroq yoki tornado o'tib bo'lgandan keyin ko'rinadi. Ammo ular osmonning bir chetida hali ham kuchli bo'ron borligidan darak beradi.",
+    facts: [
+      "Quyosh botishi paytida ufqdan tushayotgan qiya nurlar bu bulutlarni oltin, mis va binafsha ranglarga bo'yaydi.",
+      "Ularning har bir «qopchasi» 1 dan 3 kilometrgacha kenglikda bo'lib, bir necha yuz kvadrat kilometr osmonni qoplashi mumkin.",
+      "Mammatus atamasi lotincha «mamma» so'zidan olingan."
+    ]
+  },
+
+  /* --- YER VA TOG' (6) --- */
+  {
+    id: "volcano", animType: "volcano", sfxType: "rumble", icon: "🌋",
+    title: "Vulqon otilishi", category: "Yer va Tog'", accent: "#fb7185", glow: "rgba(251,113,133,0.32)",
+    chip: "🔥 1 200 °C lava", sfxLabel: "Magma gumburlashi va olov shovqini",
+    metrics: [
+      { label: "Lava harorati", val: "700 – 1 250 °C" },
+      { label: "Kul ustuni", val: "30+ km gacha" },
+      { label: "Faol vulqonlar", val: "~1 500 ta (Yerda)" },
+      { label: "Xavf darajasi", val: "Juda yuqori" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/6/61/Icelandic_volcano_eruption.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/bb/K%C4%ABlauea_-_Volcano_eruption_%28night%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/b1/P%C4%81hoehoe_Lava_flow.JPG"
+    ],
+    desc: [
+      "Vulqon otilishi — Yer mantiyasidan ko'tarilgan qaynoq erigan jinslar (magma), gazlar va kulning yer po'stidagi yoriqlar orqali sirtga shiddat bilan chiqish jarayonidir. Yer yuzasiga chiqqan magma «lava» deb ataladi.",
+      "Vulqonlar faqat vayronagarchilik keltirmaydi: ular millionlab yillar davomida Yer atmosferasi va okeanlarining shakllanishida muhim rol o'ynagan, shuningdek Gavayi va Islandiya kabi butun boshli orollarni yaratgan."
+    ],
+    steps: [
+      "Yer mantiyasidagi yuqori harorat va bosim ostida tog' jinslari erib, yengilroq magma kamerasini hosil qiladi.",
+      "Magma ichida erigan suv bug'i, karbonat angidrid va oltingugurt gazlari bosimni xuddi chayqatilgan gazli ichimlikdek oshiradi.",
+      "Bosim yer qobig'i qarshiligini yenggach, kraterdan lava favvorasi, piroklastik oqim va kul buluti otilib chiqadi."
+    ],
+    records: "Tarixdagi eng baland ovozli vulqon portlashi 1883-yilda Indoneziyadagi Krakatau otilishi bo'lgan — uning sadosi 4 800 km uzoqdan eshitilgan. Eng faol vulqonlardan biri esa Gavayidagi Kilauea vulqonidir.",
+    safety: "Vulqon yaqinida yashovchilar uchun eng xavflisi lava emas, balki soatiga 100+ km tezlikda pastga oquvchi o'ta qaynoq gaz va kul aralashmasi (piroklastik oqim)dir. Kul esa samolyot dvigatellari uchun xavfli.",
+    facts: [
+      "Dunyodagi barcha vulqonlarning 75 foizdan ortig'i Tinch okeani atrofidagi «Olovli halqa»da joylashgan.",
+      "Vulqon kulining sovushi natijasida hosil bo'lgan tuproq minerallarga nihoyatda boy va hosildor bo'ladi.",
+      "Quyosh tizimidagi eng ulkan vulqon Marsdagi «Olimp tog'i» bo'lib, balandligi Everestdan qariyb 3 baravar (21,9 km) baland."
+    ]
+  },
+  {
+    id: "geyser", animType: "geyser", sfxType: "geyser", icon: "♨️",
+    title: "Geyzer otilishi", category: "Yer va Tog'", accent: "#2dd4bf", glow: "rgba(45,212,191,0.3)",
+    chip: "💨 90 m gacha bug'", sfxLabel: "Qaynoq suv va bosimli bug' otilishi",
+    metrics: [
+      { label: "Suv harorati", val: "95 – 120 °C" },
+      { label: "Otilish balandligi", val: "20 – 90 metr" },
+      { label: "Mashhur joylar", val: "Islandiya, Yelloustoun" },
+      { label: "Xavf darajasi", val: "O'rtacha (Kuyish)" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/7/7d/Strokkur_Eruption.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/1/15/Strokkur_Geysir_Starting_its_Eruption_-_Flickr_-_Bernd_Thaller.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/81/Strokkur_eruption_in_summer_2009_%284%29.jpg"
+    ],
+    desc: [
+      "Geyzer — geotermal (vulqonli) hududlarda yer ostidan vaqti-vaqti bilan osmonga qaynoq suv va bug' ustunini otib turadigan noyob tabiiy buloqdir. Dunyoda bunday sharoit juda kam joyda uchragani uchun geyzerlar noyob geologik mo'jiza hisoblanadi.",
+      "Geyzerlarning otilish oralig'i har xil: ba'zilari har 5 daqiqada, boshqalari esa bir necha kunda yoki oyda bir marta otiladi."
+    ],
+    steps: [
+      "Yomg'ir va qor suvlari yer po'stidagi yoriqlardan bir necha yuz metr chuqurlikka sizib tushadi.",
+      "Chuqurlikda vulqon magmasi bilan qizigan toshlar suvni 100 °C dan ham yuqori haroratgacha qizdiradi, lekin ustidagi suv ustuni bosimi uning qaynashiga yo'l qo'ymaydi.",
+      "Suvning bir qismi bug'ga aylangach, yuqoridagi suvni itarib chiqaradi, bosim birdan pasayadi va barcha qaynoq suv bir zumda bug'lanib favvora bo'lib otiladi."
+    ],
+    records: "Dunyodagi eng baland faol geyzer AQShning Yelloustoun bog'idagi «Steamboat» geyzeri bo'lib, suvni 90 metrdan balandga otadi. Islandiyadagi Strokkur esa har 6–10 daqiqada aniq otilishi bilan mashhur.",
+    safety: "Geyzerlar atrofidagi yer qobig'i juda yupqa va mo'rt bo'ladi, suv esa qaynoq va kislotali bo'lishi mumkin. Shuning uchun sayyohlar faqat maxsus yog'och yo'lakchalardan yurishlari shart.",
+    facts: [
+      "Butun dunyoda atigi 1000 ga yaqin geyzer mavjud bo'lib, ularning yarmidan ko'pi Yelloustoun milliy bog'ida joylashgan.",
+      "«Geyzer» so'zi islandcha «geysa» — «shiddat bilan otilib chiqmoq» fe'lidan kelib chiqqan.",
+      "Saturnning yo'ldoshi Enseladda ham muz qobig'i ostidan koinotga muz geyzerlari otilib turadi!"
+    ]
+  },
+  {
+    id: "avalanche", animType: "avalanche", sfxType: "rumble", icon: "🏔️",
+    title: "Qor ko'chkisi", category: "Yer va Tog'", accent: "#93c5fd", glow: "rgba(147,197,253,0.3)",
+    chip: "❄️ 300 km/soat", sfxLabel: "Tog' qor ko'chkisi va sovuq shamol",
+    metrics: [
+      { label: "Tezligi", val: "130 – 300 km/soat" },
+      { label: "Qor massasi", val: "Minglab tonna" },
+      { label: "Nishab burchagi", val: "30° – 45° qiyalik" },
+      { label: "Xavf darajasi", val: "Juda yuqori" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/e/e9/Avalanche_on_Everest.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/31/Avalanche.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/f0/Alps_Avalanche.jpg"
+    ],
+    desc: [
+      "Qor ko'chkisi — tik tog' yonbag'irlarida to'plangan ulkan qor va muz qatlamining muvozanatini yo'qotib, tortishish kuchi ta'sirida pastga shiddat bilan siljib tushishidir. Ko'chki oldidan kuchli zarba havo to'lqini ham harakatlanadi.",
+      "Quruq kukunsimon qor ko'chkisi juda tez harakatlanib, yo'lidagi o'rmonlarni qirib tashlasa, ho'l og'ir qor ko'chkisi sekinroq tushsa-da, to'xtaganda beton kabi qotib qoladi."
+    ],
+    steps: [
+      "Qish davomida tog' yonbag'irida zichligi turlicha bo'lgan bir necha qor qatlamlari ustma-ust yig'iladi.",
+      "Pastdagi bo'sh (donador) qor qatlami ustki og'ir qor plitasini ushlab turolmay qoladi.",
+      "Yangi qor yog'ishi, harorat ko'tarilishi, shamol yoki chang'ichining og'irligi «tetik» vazifasini o'tab, qor plitasini pastga qo'zg'atadi."
+    ],
+    records: "Qor ko'chkisi bir necha soniya ichida 130–300 km/soat tezlikka chiqishi mumkin. 1970-yilda Perudagi Uaskaran tog'idan tushgan gigant qor-tosh ko'chkisi 18 km masofani bosib o'tgan.",
+    safety: "O'zbekistonning Chimyon, Beldirsoy va Qamchiq dovoni kabi tog'li hududlarida ko'chki xavfini kamaytirish uchun mutaxassislar qor qatlamini oldindan maxsus vositalar bilan sun'iy tushiradilar. Tog'da faqat belgilangan yo'llardan yurish lozim.",
+    facts: [
+      "Ommabop filmlarda ko'rsatilganidek, qattiq baqirish ovozi ko'chkini qo'zg'atmaydi — ko'chkining 90% hollarda sababchisi qor ustidagi bevosita og'irlik yoki ob-havo o'zgarishidir.",
+      "Qor ko'chkisi ostida qolgan odam nafas olishi uchun yuz oldida qo'llari bilan havo bo'shlig'i yaratishi juda muhim.",
+      "Alpinistlar ko'chki paytida qor ustida qolishga yordam beradigan maxsus havo yostiqli ryukzaklardan foydalanishadi."
+    ]
+  },
+  {
+    id: "earthquake", animType: "earthquake", sfxType: "rumble", icon: "🪨",
+    title: "Zilzila va Tektonik yoriq", category: "Yer va Tog'", accent: "#fb923c", glow: "rgba(251,146,60,0.3)",
+    chip: "📉 8 km/sek to'lqin", sfxLabel: "Yer osti seysmik to'lqin tebranishi",
+    metrics: [
+      { label: "To'lqin tezligi", val: "3 – 8 km/sek" },
+      { label: "San-Andreas uzunligi", val: "1 200 km" },
+      { label: "O'lchov birligi", val: "Magnituda (Mw)" },
+      { label: "Yillik soni", val: "~500 000 ta" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/6/6f/San_Andreas_Fault_San_Mateo.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/26/Calle_Francisco_Pacheco_Portoviejo%2C_Ecuador_04.05.2016.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/54/Sfearthquake3b.jpg"
+    ],
+    desc: [
+      "Zilzila — Yer po'stini tashkil etuvchi ulkan litosfera plitalarining harakati natijasida tog' jinslarida to'plangan elastik energiyaning birdaniga uzilib chiqishi va yer yuzasining tebranishidir.",
+      "Yerning tashqi qobig'i xuddi mozaika kabi plitalardan iborat bo'lib, ular yiliga tirnoq o'sishi tezligida (bir necha santimetr) siljiydi. Yuz yillar davomida yig'ilgan taranglik bir necha soniyada bo'shab, yer sirtida ulkan yoriqlar qoldirishi mumkin."
+    ],
+    steps: [
+      "Ikki tektonik plita chegarasida tog' jinslari bir-biriga ilashib qoladi, ammo chuqur mantiyadagi harakat ularni itarishda davom etadi.",
+      "Yillar davomida chegarada ulkan mexanik taranglik va deformatsiya to'planadi.",
+      "Jinslar sinish chegarasidan oshganda uzilish (gipotsentr) yuz berib, barcha tomonga P (bo'ylama) va S (ko'ndalang) seysmik to'lqinlar tarqaladi."
+    ],
+    records: "Tarixda asboblar bilan qayd etilgan eng kuchli zilzila 1960-yilda Chilida sodir bo'lgan Buyuk Chili zilzilasi bo'lib, magnitudasi 9,5 ballga yetgan.",
+    safety: "Zilzila paytida vahimaga tushmaslik, liftdan foydalanmaslik, mustahkam stol ostiga yoki ichki devor burchagiga («hayot uchburchagi») turib boshni himoyalash kerak. Tebranish to'xtagach, ochiq maydonga chiqish zarur.",
+    facts: [
+      "Magnituda shkalasi logarifmikdir: 7 balli zilzila 5 balli zilziladan naq 1000 barobar ko'proq energiya chiqaradi!",
+      "2011-yildagi Yaponiya zilzilasi Yerning massa taqsimotini shu qadar o'zgartirdiki, sutka uzunligi 1,8 mikrosoniyaga qisqargan.",
+      "Oyda ham «oy zilzilalari» (moonquakes) sodir bo'lib, ular yer zilzilalaridan farqli ravishda bir necha soat davom etishi mumkin."
+    ]
+  },
+  {
+    id: "mud_volcano", animType: "mud_volcano", sfxType: "geyser", icon: "🫧",
+    title: "Loy vulqonlari", category: "Yer va Tog'", accent: "#a3e635", glow: "rgba(163,230,53,0.28)",
+    chip: "🫧 Sovuq loy pufagi", sfxLabel: "Yer osti gazi va quyuq loy qaynashi",
+    metrics: [
+      { label: "Loy harorati", val: "15 – 40 °C (Sovuq)" },
+      { label: "Asosiy gaz", val: "Metan (CH₄)" },
+      { label: "Rekordchi davlat", val: "Ozarbayjon (350+)" },
+      { label: "Xavf darajasi", val: "Past – O'rtacha" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/1/14/Mud_Volcano_in_Gobustan_03.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/bc/A_still_shot_of_the_bubbling_mud_volcano_%2836450514573%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/07/Bubbling_Mud_Volcano_%283860839273%29.jpg"
+    ],
+    desc: [
+      "Loy vulqonlari — magmatik vulqonlarga o'xshash konussimon tepaliklar bo'lsa-da, ulardan qaynoq erigan tosh emas, balki yer ostidagi suv, gil va gazlar aralashmasidan iborat sovuq yoki iliq loy otilib chiqadi.",
+      "Ular ko'pincha neft va tabiiy gaz konlariga boy mintaqalarda joylashadi va odatda sokin pufaklab turadi, ammo ba'zida to'plangan gaz bosimi kuchayib, o'nlab metr balandlikka loy hamda alanga otishi mumkin."
+    ],
+    steps: [
+      "Yer ostidagi chuqur cho'kindi qatlamlarda organik moddalardan metan va boshqa gazlar hosil bo'ladi.",
+      "Yuqori bosimli gazlar yer osti suvlari va mayda gil qatlamlarini aralashtirib, suyuq loy massasini yaratadi.",
+      "Tektonik yoriqlar bo'ylab loy yer yuzasiga siqilib chiqib, atrofida kraterli tepalik hosil qiladi."
+    ],
+    records: "Dunyodagi 800 ga yaqin loy vulqonining 350 dan ortig'i Ozarbayjonda (Kaspiy dengizi sohili va Qobustonda) joylashgan. Eng yiriklaridan biri bo'lgan Toragay vulqonining balandligi 400 metrga yetadi.",
+    safety: "Loy vulqonlaridan chiqadigan loy tarkibida foydali minerallar va yod ko'p bo'lgani uchun kosmetologiya va shifobaxsh vannalarda ishlatiladi. Biroq otilish paytida gaz chaqnab alanga chiqishi mumkinligi uchun ehtiyot bo'lish kerak.",
+    facts: [
+      "Ba'zi yirik loy vulqonlari otilganida chiqayotgan metan gazi toshlar ishqalanishidan chaqnab, bir necha yuz metr balandlikdagi olov ustunini hosil qilgan.",
+      "NASA olimlari Mars sayyorasining shimoliy tekisliklarida ham qadimiy loy vulqonlariga o'xshash tepaliklarni aniqlashgan.",
+      "Kaspiy dengizidagi bir nechta orol aynan suv osti loy vulqonlarining otilishi natijasida paydo bo'lgan."
+    ]
+  },
+  {
+    id: "sinkhole", animType: "sinkhole", sfxType: "ocean", icon: "🕳️",
+    title: "Karst o'pirilishi va Moviy tuynuk", category: "Yer va Tog'", accent: "#2dd4bf", glow: "rgba(45,212,191,0.3)",
+    chip: "🕳️ 124 m chuqur", sfxLabel: "Yer osti g'or ko'lidagi aks-sado",
+    metrics: [
+      { label: "Beliz tuynugi", val: "318 m eni, 124 m chuqur" },
+      { label: "Jins turi", val: "Ohaktosh erishi" },
+      { label: "Mashhur joylar", val: "Beliz, Meksika, Ummon" },
+      { label: "Xavf darajasi", val: "Mahalliy xavf" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/6/61/Great_Blue_Hole.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/ea/Bimmah_Sinkhole_2.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/52/Cenote_IK_KIL.jpg"
+    ],
+    desc: [
+      "Karst o'pirilishi (sinkhole yoki Meksikada «senot») — yer osti suvlari eruvchan tog' jinslarini (ohaktosh, dolomit, gips) minglab yillar davomida asta-sekin yuvib ketib bo'shliq hosil qilgach, yuqoridagi tuproq qatlamining qulab tushishi natijasida yuzaga keladigan tabiiy chuqurlikdir.",
+      "Ko'pincha bunday chuqurliklarning tubi tiniq yer osti ko'llari bilan to'lib, quyosh nurlari tushganda zangori-moviy rangda tovlanuvchi ajoyib manzara yaratadi."
+    ],
+    steps: [
+      "Yomg'ir suvi atmosferadan va tuproqdan karbonat angidridni yutib, kuchsiz karbonat kislotasiga aylanadi.",
+      "Kislotali suv yer ostidagi ohaktosh yoriqlaridan o'tib, toshni eritadi va yirik yer osti g'orlarini shakllantiradi.",
+      "G'or bo'shlig'i juda kattalashgach, uning shifti ustki og'irlikni ko'tara olmay qoladi va bir zumda pastga o'piriladi."
+    ],
+    records: "Dunyodagi eng mashhur dengiz karst tuynugi — Belizdagi «Buyuk Moviy Tuynuk» (318 m diametr, 124 m chuqurlik). Eng chuqur quruqlik sinkholi esa Xitoydagi «Syaochjay Tyankeng» bo'lib, chuqurligi 662 metrni tashkil etadi.",
+    safety: "Shaharlarda ham yer osti suv quvurlari yorilib tuproqni yuvib ketsa, sun'iy o'pirilishlar sodir bo'lishi mumkin. Tabiiy senotlar esa suv sporti va g'avvoslar uchun sevimli maskan hisoblanadi.",
+    facts: [
+      "Belizdagi Buyuk Moviy Tuynuk oxirgi muzlik davrida (15 000 yil oldin) quruqlikdagi g'or bo'lgan — uning ichida hamon quruqlik stalaktitlari saqlanib qolgan.",
+      "Meksikaning Yukatan yarimorolida 6 000 dan ortiq suvli senotlar mavjud bo'lib, qadimgi Mayya xalqi ularni muqaddas suv manbai deb bilgan.",
+      "Xitoydagi chuqur Tyankeng o'pirilishlarining tubida tashqi dunyodan ajralgan o'ziga xos o'rmon ekotizimlari shakllangan."
+    ]
+  },
+
+  /* --- SUV VA OKEAN (6) --- */
+  {
+    id: "tsunami", animType: "tsunami", sfxType: "ocean", icon: "🌊",
+    title: "Sunami", category: "Suv va Okean", accent: "#22d3ee", glow: "rgba(34,211,238,0.32)",
+    chip: "🌊 800 km/soat", sfxLabel: "Bahaybat okean to'lqini zarbasi",
+    metrics: [
+      { label: "Okeandagi tezlik", val: "700 – 900 km/soat" },
+      { label: "Qirg'oq balandligi", val: "10 – 30+ metr" },
+      { label: "To'lqin uzunligi", val: "100 – 200 km" },
+      { label: "Xavf darajasi", val: "O'ta halokatli" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/4/49/Breaking_Wave.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/e5/Breaking_wave%2C_North_Piha.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/2d/2004-tsunami.jpg"
+    ],
+    desc: [
+      "Sunami (yaponchadan «bandargoh to'lqini») — shamol hosil qiladigan oddiy sirt to'lqinlaridan tubdan farq qiladi: u okean tubidan tortib yuzasigacha bo'lgan butun suv qatlamining kuchli siljishidan paydo bo'ladigan gigant to'lqinlar zanjiridir.",
+      "Chuqur okeanda sunami to'lqinining balandligi atigi 30–60 santimetr bo'lib, kemalar uni deyarli sezmaydi. Biroq sayoz qirg'oqqa yaqinlashganda oldingi qismi sekinlashib, orqadan kelayotgan ulkan suv massasi bir necha qavatli bino balandligida ko'tariladi."
+    ],
+    steps: [
+      "Okean tubida 7 balldan yuqori zilzila, suv osti ko'chkisi yoki vulqon portlashi sodir bo'lib, dengiz tubi keskin ko'tariladi yoki cho'kadi.",
+      "Ustidagi milliardlab tonna suv massasi muvozanatdan chiqib, barcha yo'nalishlarda reaktiv samolyot tezligida tarqaladi.",
+      "Qirg'oqqa yetib kelganda suv avval orqaga chekinishi mumkin, so'ngra birin-ketin kuchli to'lqin devorlari yopiriladi."
+    ],
+    records: "Tarixdagi eng baland sunami 1958-yilda Alyaskaning Lituya ko'rfazida qayd etilgan — tog' ko'chkisi suvga qulab, 524 metr balandlikkacha o'rmonni yuvib ketgan! 2004-yilgi Hind okeani sunamisi esa 14 ta davlat qirg'oqlariga yetib borgan.",
+    safety: "Agar qirg'oqda kuchli zilzila sezsangiz yoki dengiz suvi g'ayrioddiy tarzda orqaga chekinib, baliqlar qumda qolib ketsa — darhol zudlik bilan balandlikka yoki qirg'oqdan uzoq ichkari tomon yugurish kerak. Birinchi to'lqin o'tishi bilan qaytmaslik lozim, keyingilari yanada kuchliroq bo'lishi mumkin.",
+    facts: [
+      "Sunami bitta to'lqin emas, balki 10–60 daqiqa oralig'ida keladigan to'lqinlar «poyezdi»dir.",
+      "Chuqur Tinch okeanini sunami bir chetidan ikkinchi chetigacha atigi 12–15 soatda kesib o'ta oladi.",
+      "Zamonaviy sunami ogohlantirish tizimlari okean tubidagi DART bosim datchiklari orqali to'lqinni bir necha daqiqada aniqlaydi."
+    ]
+  },
+  {
+    id: "bioluminescence", animType: "bioluminescence", sfxType: "ocean", icon: "✨",
+    title: "Biolyuminessensiya (Nurli dengiz)", category: "Suv va Okean", accent: "#3b82f6", glow: "rgba(59,130,246,0.36)",
+    chip: "💙 Moviy neon nur", sfxLabel: "Tungi sokin dengiz to'lqinlari",
+    metrics: [
+      { label: "Manbasi", val: "Dinoflagellat plankton" },
+      { label: "Nur rangi", val: "Moviy / Zangori" },
+      { label: "Issiqlik ajralishi", val: "~0% (Sovuq nur)" },
+      { label: "Xavf darajasi", val: "Xavfsiz (Sehrli)" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/2/2e/Bioluminescent_dinoflagellates.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/7e/Bioluminescence_at_Paraparaumu_Beach_2.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/a2/Bioluminiscence_at_Bhimili_beach_01.jpg"
+    ],
+    desc: [
+      "Tunda okean to'lqinlari qirg'oqqa urilganda yorqin elektr-moviy neon rangida porlab ketishi — tabiatning eng romantik hodisalaridan biri bo'lgan biolyuminessensiyadir. Bunda dengiz suvi go'yo yulduzli osmonni aks ettirayotgandek ko'rinadi.",
+      "Bu sehrli nurning muallifi suvdagi millionlab bir hujayrali mikroorganizmlar — dinoflagellatlar (masalan, Noctiluca scintillans)dir. Ular harakat va to'lqin zarbasini sezishi bilan yorug'lik chaqnashini hosil qiladi."
+    ],
+    steps: [
+      "Iliq va ozuqa moddalariga boy qirg'oq suvlarida mikroskopik planktonlar ko'p miqdorda to'planadi.",
+      "To'lqin urilishi, qayiq eshkagi yoki suzuvchining qo'li suvni bezovta qilganda hujayra ichidagi mexanik signal ishga tushadi.",
+      "Lyutsiferin moddasi lyutsiferaza fermenti yordamida kislorod bilan reaksiyaga kirishib, qisqa moviy yorug'lik fotonlarini chiqaradi."
+    ],
+    records: "Dunyodagi eng yorqin biolyuminessent joylar: Puerto-Rikodagi Moskito ko'rfazi (yil bo'yi porlaydi), Maldiv orollari («Yulduzlar dengizi»), Kaliforniya va Avstraliyaning Gippslend ko'llari.",
+    safety: "Bu hodisaning o'zi inson uchun xavfli emas va tunda nurli suvda suzish unutilmas taassurot qoldiradi. Biroq planktonlar haddan tashqari ko'paygan («qizil toshqin») hududlarda suvda suzishdan oldin mahalliy tavsiyalarga amal qilish yaxshi.",
+    facts: [
+      "Oddiy cho'g'lanma lampa energiyasining 90 foizini issiqlikka sarflasa, biolyuminessensiyada deyarli 100% energiya sof yorug'likka aylanadi.",
+      "Planktonlar bunday nur chiqarish orqali o'zlarini yemoqchi bo'lgan mayda qisqichbaqalarni qo'rqitadi yoki ularni yeydigan kattaroq baliqlarni chaqiradi («o'g'ri signalizatsiyasi»).",
+      "Okeanning 1000 metrdan chuqur qismida yashovchi baliq va meduzalarning 75 foizdan ortig'i ham o'zidan nur tarata oladi."
+    ]
+  },
+  {
+    id: "whirlpool", animType: "whirlpool", sfxType: "ocean", icon: "🌀",
+    title: "Dengiz girdobi (Malstrem)", category: "Suv va Okean", accent: "#06b6d4", glow: "rgba(6,182,212,0.32)",
+    chip: "🌀 40 km/soat oqim", sfxLabel: "Aylanuvchi kuchli dengiz girdobi",
+    metrics: [
+      { label: "Oqim tezligi", val: "40 km/soat gacha" },
+      { label: "Eng kuchlisi", val: "Saltstraumen (Norvegiya)" },
+      { label: "Suv hajmi", val: "400 mln m³ / 6 soat" },
+      { label: "Sababi", val: "Suv ko'tarilishi (Priliv)" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/6/6c/Saltstraumen.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/36/Saltstraumen-2003_07_08.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/80/Saltstraumen_2005.jpg"
+    ],
+    desc: [
+      "Malstrem — tor dengiz bo'g'ozlarida kuchli suv oqimlari qarama-qarshi yo'nalishda to'qnashganda yoki suv osti qoyalarini aylanib o'tganda yuzaga keladigan ulkan aylanma suv girdobidir.",
+      "Afsonalarda u ulkan kemalarni yutib yuboruvchi dahshat sifatida tasvirlangan bo'lsa-da, haqiqatda u kichik qayiqlar va suzuvchilar uchun xavfli bo'lgan, tabiatning nihoyatda qudratli gidrodinamik hodisasidir."
+    ],
+    steps: [
+      "Oy va Quyoshning tortish kuchi tufayli okean suvi kuniga ikki marta ko'tariladi (priliv) va pasayadi (otliv).",
+      "Katta ko'rfazga kirishdagi eni atigi 150 metrli tor bo'g'ozdan bir necha soat ichida yuz millionlab tonna suv o'tishiga to'g'ri keladi.",
+      "Qarama-qarshi oqimlar va notekis dengiz tubi suvni tez aylantirib, chuqur voronkali girdoblarni hosil qiladi."
+    ],
+    records: "Dunyodagi eng kuchli suv ko'tarilishi oqimi va girdoblari Norvegiyadagi Saltstraumen bo'g'ozida kuzatiladi — bu yerda suv tezligi 40 km/soatga yetib, diametri 10 metr va chuqurligi 4–5 metrlik girdoblar paydo bo'ladi. Yaponiyadagi Naruto girdoblari ham mashhur.",
+    safety: "Sayyohlar girdoblarni ko'priklardan yoki maxsus qudratli ekskursiya katerlaridan xavfsiz tomosha qilishadi. Kichik qayiqlar uchun esa bo'g'ozdan faqat oqimlar to'xtagan sokin daqiqalarda o'tish ruxsat etiladi.",
+    facts: [
+      "Har 6 soatda Saltstraumen bo'g'ozidan o'tadigan suv hajmi 160 000 ta olimpiya suzish havzasiga teng!",
+      "Girdoblar suvning quyi va yuqori qatlamlarini aralashtirib, kislorod bilan boyitgani uchun bu joylarda baliqlar haddan ziyod ko'p bo'ladi.",
+      "Mashhur yozuvchi Edgar Allan Po va Jyul Vern o'z asarlarida aynan Norvegiya malstremlarini tasvirlashgan."
+    ]
+  },
+  {
+    id: "glacier", animType: "glacier", sfxType: "rumble", icon: "🧊",
+    title: "Muzlik qulashi (Aysberg tug'ilishi)", category: "Suv va Okean", accent: "#7dd3fc", glow: "rgba(125,211,252,0.3)",
+    chip: "🧊 70 m muz devori", sfxLabel: "Ulkan muzning qarsillab sinishi",
+    metrics: [
+      { label: "Perito Moreno devori", val: "60 – 74 metr" },
+      { label: "Suv osti qismi", val: "Aysbergning ~90%" },
+      { label: "Hududlar", val: "Patagoniya, Grenlandiya" },
+      { label: "Xavf darajasi", val: "Yaqinda xavfli to'lqin" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/e/ef/Perito_Moreno_Glacier..._calving%21_%285469878671%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/0e/Blue_face_from_large_calving_and_wave_coming_Perito_Moreno_Glacier_Los_Glaciares_National_Park_Argentina.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/5a/Perito-moreno-glaciar.jpg"
+    ],
+    desc: [
+      "Muzlik qulashi (kalving) — quruqlikdan okean yoki tog' ko'liga qarab oqib kelayotgan qadimiy muz daryosining old chetidan minglab tonnalik muz bloklarining momaqaldiroqdek qarsillash bilan ajralib suvga tushishidir.",
+      "Aynan shu jarayon orqali okeanlarda suzib yuruvchi ulkan aysberglar dunyoga keladi. Suvga urilgan muz devori atrofga baland to'lqin va muz parchalari bulutini sochadi."
+    ],
+    steps: [
+      "Ming yillar davomida yig'ilgan qor bosim ostida zichlashib, asta-sekin pastga siljiydigan ulkan muzlikka aylanadi.",
+      "Muzlik suvga yetib borgach, iliqroq suv uning ostki qismini yuvib eritadi va muz devorida chuqur yoriqlar (krevassalar) paydo bo'ladi.",
+      "Og'irlik muvozanati buzilganda ko'p qavatli bino balandligidagi muz bo'lagi uzilib, suvga qulaydi."
+    ],
+    records: "Argentinadagi Perito Moreno muzligi old devori 70 metr balandlikka ega. Antarktidada esa 2021-yilda ajralib chiqqan A-76 aysbergining maydoni 4 320 km² bo'lib, deyarli butun boshli shahar-viloyat kattaligida edi.",
+    safety: "Muzlik chetiga 300–500 metrdan yaqin borish taqiqlanadi, chunki uzilgan muz suv ostidan ham birdaniga yuzaga otib chiqishi va katta to'lqin bilan qayiqlarni ag'darishi mumkin.",
+    facts: [
+      "Qadimiy muzliklar nega moviy rangda? Chunki ulkan bosim ostida ichidagi havo pufakchalari chiqib ketadi, zich muz esa quyoshning qizil nurlarini yutib, faqat ko'k nurni o'tkazadi.",
+      "Biz suv yuzasida ko'radigan aysberg — uning atigi 10 foizi, qolgan 90 foizi suv ostida yashiringan bo'ladi.",
+      "Muzliklar ichida minglab yillar oldingi Yer atmosferasi havosining mayda pufakchalari saqlanib qolgan."
+    ]
+  },
+  {
+    id: "waterspout", animType: "tornado", sfxType: "wind", icon: "🌪️",
+    title: "Suv qo'yuni (Waterspout)", category: "Suv va Okean", accent: "#38bdf8", glow: "rgba(56,189,248,0.3)",
+    chip: "🌊 Dengiz ustidagi ustun", sfxLabel: "Suv purkagan dengiz quyuni shamoli",
+    metrics: [
+      { label: "Davomiyligi", val: "5 – 20 daqiqa" },
+      { label: "Shamol tezligi", val: "80 – 190 km/soat" },
+      { label: "Balandligi", val: "500 – 1 000 metr" },
+      { label: "Ko'p uchraydi", val: "Florida, O'rta yer dengizi" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/0/0e/Waterspout_at_sea_between_Syros_and_Mykonos.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/80/Giant_water_spout_off_Florida_Keys_%28wea00341%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/f5/Waterspout_%284464231694%29.jpg"
+    ],
+    desc: [
+      "Suv qo'yuni — iliq dengiz, okean yoki yirik ko'l ustida bulutdan suv yuzasigacha cho'zilib tushadigan silliq aylanma havo va suv bug'lari ustunidir. U quruqlikdagi tornadodan ko'ra nozikroq va ko'proq shaffof ko'rinishga ega bo'ladi.",
+      "Ko'pchilik suv qo'yuni dengiz suvini bulutgacha so'rib chiqadi deb o'ylaydi, lekin aslida ustunning o'zi bulutdagi suv bug'ining kondensatsiyalanishidan hosil bo'ladi; pastdagi suv esa faqat bir necha metrga purkalib halqa yasaydi."
+    ],
+    steps: [
+      "Iliq dengiz suvi ustidagi nam havo yuqoridagi salqin havo bilan uchrashib, tez o'suvchi to'p bulutlarni hosil qiladi.",
+      "Suv yuzasi yaqinidagi shamollar to'qnashib, vertikal aylanma havo vorteksini boshlaydi.",
+      "Aylanish kuchaygach, markazdagi bosim pasayib, bug' kondensatsiyalanadi va ko'rinadigan quvur shakli paydo bo'ladi."
+    ],
+    records: "AQShning Florida-Kis orollari «suv qo'yunlari poytaxti» sanaladi — bu yerda yiliga 400–500 tagacha suv qo'yuni kuzatiladi. 1969-yilda Avstraliya qirg'og'ida balandligi 1 500 metrdan oshgan ulkan suv qo'yuni qayd etilgan.",
+    safety: "Odatda suv qo'yunlari quruqlikka chiqishi bilan tezda tarqab ketadi, ammo dengizdagi yaxtalar, yelkanli kemalar va gidrosamolyotlar uchun jiddiy xavf tug'diradi. Kemalar unga yaqinlashmay aylanib o'tishi kerak.",
+    facts: [
+      "Ba'zan bitta bulut ostida bir vaqtning o'zida 4 dan 7 tagacha egizak suv qo'yunlari yonma-yon raqs tushgandek ko'rinadi.",
+      "Qishki sovuq havoda iliq ko'llar (masalan, Michigan ko'li) ustida ham «qishki suv qo'yunlari» paydo bo'lishi mumkin.",
+      "Qadimgi dengizchilar suv qo'yunlarini dahshatli dengiz ajdarlari deb o'ylab, ularni tarqatish uchun to'plardan o'q uzishgan."
+    ]
+  },
+  {
+    id: "methane_bubbles", animType: "methane", sfxType: "aurora", icon: "🫧",
+    title: "Muzlagan metan pufakchalari", category: "Suv va Okean", accent: "#60a5fa", glow: "rgba(96,165,250,0.32)",
+    chip: "❄️ Muz ostidagi marjon", sfxLabel: "Tiniq ko'l muzi qirsillashi",
+    metrics: [
+      { label: "Mashhur ko'l", val: "Abraham (Kanada), Baykal" },
+      { label: "Gaz turi", val: "Metan (CH₄)" },
+      { label: "Muz qalinligi", val: "20 – 80 sm" },
+      { label: "Xavf darajasi", val: "Olovdan ehtiyot" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/3/3b/Frozen_Methane_Bubbles_%2811927906233%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/42/Abraham_Lake_-_bubbles.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/ca/Abraham_Lake_-_Alberta.jpg"
+    ],
+    desc: [
+      "Qishda Kanadadagi Abraham ko'li yoki Sibirdagi Baykal ko'lining shaffof ko'k muziga qarasangiz, suv ostida xuddi oq meduzalar yoki chinni likopchalar kabi ustma-ust qotib qolgan minglab pufakchalarni ko'rasiz.",
+      "Bu ajoyib manzara ko'l tubidagi bakteriyalarning faoliyati va qattiq qish sovug'ining birgalikdagi «san'at asari»dir. Muz qanchalik tiniq bo'lsa, har bir pufak qatlami shunchalik aniq ko'rinadi."
+    ],
+    steps: [
+      "Ko'l tubiga cho'kkan barglar, o'tlar va organik qoldiqlarni kislorodsiz muhitda yashovchi bakteriyalar parchalab, metan gazi ajratadi.",
+      "Yozda metan pufakchalari suv yuzasiga chiqib havoga uchib ketadi, ammo qishda ko'l yuzasi muzlay boshlaydi.",
+      "Har kecha muz pastga qarab qalinlashgani sari, ko'tarilayotgan pufakchalar turli chuqurliklarda muz qatlamlari orasida qamalib qoladi."
+    ],
+    records: "Dunyodagi eng mashhur suratbop metan pufakchalari Kanadaning Alberta provinsiyasidagi Abraham sun'iy suv omborida (uzunligi 32 km) kuzatiladi. Shamollar qorni uchirib ketgani uchun u yerdagi muz oyna kabi tiniq bo'ladi.",
+    safety: "Muz ustida yurish uchun uning qalinligi kamida 15–20 sm bo'lishi kerak. Shuningdek, metan tez alangalanuvchi gaz bo'lgani uchun pufakli muzni teshib gugurt chaqish kuyishga olib kelishi mumkin.",
+    facts: [
+      "Bahorda muz eriy boshlaganda millionlab metan pufakchalari bir vaqtda atmosferaga chiqadi — metan esa karbonat angidridga qaraganda kuchliroq issiqxona gazidir.",
+      "Bir ustundagi pufakchalarning kattaligiga qarab olimlar qish davomida harorat qanchalik tez pasayganini aniqlay oladilar.",
+      "Tiniq muz ustida yurilganda ko'lning ichki tarangligidan xuddi «kosmik lazer» tovushiga o'xshash g'aroyib aks-sado eshitiladi."
+    ]
+  },
+
+  /* --- NUR VA KOSMOS (6) --- */
+  {
+    id: "aurora", animType: "aurora", sfxType: "aurora", icon: "🌌",
+    title: "Shimoliy yog'du (Aurora Borealis)", category: "Nur va Kosmos", accent: "#34d399", glow: "rgba(52,211,153,0.32)",
+    chip: "✨ 100–400 km balandlik", sfxLabel: "Kosmik yog'du va kristall tovushlari",
+    metrics: [
+      { label: "Balandlik", val: "100 – 400 km" },
+      { label: "Qayerda ko'rinadi", val: "Norvegiya, Islandiya, Kanada" },
+      { label: "Asosiy ranglar", val: "Yashil, Binafsha, Qizil" },
+      { label: "Xavf darajasi", val: "Xavfsiz (Go'zal)" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/a/ae/Aurora_borealis_over_Lapland_%28Unsplash%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/63/Aurora_Borealis.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9a/Aurora_Borealis_-_Flickr_-_marceloquinan.jpg"
+    ],
+    desc: [
+      "Shimoliy yog'du (Janubiy qutbda Aurora Australis) — Quyoshdan kelayotgan zaryadlangan zarrachalar oqimi (quyosh shamoli) Yerning magnit qalqoni bilan to'qnashib, qutblar atrofidagi atmosferani nurlantirishi natijasida osmonda paydo bo'ladigan rang-barang parda va lentalar raqsidir.",
+      "Yog'duning rangi zarrachalar qaysi gaz atomiga va qanday balandlikda urilishiga bog'liq: 100–200 km balandlikdagi kislorod yorqin zumrad-yashil nur bersa, 300 km dan balanddagi kislorod qizil, azot molekulalari esa ko'k va binafsha rang taratadi."
+    ],
+    steps: [
+      "Quyoshda kuchli chaqnash (toj massasi otilishi) sodir bo'lganda koinotga milliardlab tonna zaryadlangan elektron va protonlar sochiladi.",
+      "1–3 kun ichida Yer magnitosferasiga yetib kelgan bu zarrachalar magnit chiziqlari bo'ylab Shimoliy va Janubiy magnit qutblariga yo'naltiriladi.",
+      "Yuqori atmosferadagi gaz atomlari bilan to'qnashgan zarrachalar atomlarni uyg'otadi va ular ortiqcha energiyani yorug'lik fotonlari shaklida chiqaradi."
+    ],
+    records: "Shimoliy yog'duni tomosha qilish uchun eng yaxshi joylar: Tromsyo (Norvegiya), Abisko (Shvetsiya), Reykyavik (Islandiya) va Yellowknife (Kanada). 2024-yil may oyidagi kuchli quyosh bo'roni paytida yog'du hatto O'rta yer dengizi va Markaziy Osiyoning shimoliy kengliklarigacha ko'ringan!",
+    safety: "Shimoliy yog'du yer yuzidagi insonlar uchun mutlaqo xavfsiz. Biroq uni keltirib chiqaruvchi kuchli geomagnit bo'ronlar sun'iy yo'ldoshlar, GPS navigatsiya va elektr uzatish tarmoqlariga ta'sir qilishi mumkin.",
+    facts: [
+      "Xalqaro kosmik stansiya (XKS) astronavtlari ba'zida Shimoliy yog'duning qoq ichidan uchib o'tishadi — u yerdan bu manzara yashil olovli okean kabi ko'rinadi.",
+      "Shimoliy yog'du Yupiter va Saturn sayyoralarining qutblarida Yerdagidan yuzlab marta kuchliroq va doimiy ravishda porlaydi.",
+      "Qattiq sovuq va sukunat kechalarida qutb aholisi yog'dudan kelayotgan past qarsillash va shivirlash tovushlarini ham eshitishgan."
+    ]
+  },
+  {
+    id: "rainbow", animType: "rainbow", sfxType: "aurora", icon: "🌈",
+    title: "Kamalak va Qo'sh kamalak", category: "Nur va Kosmos", accent: "#f472b6", glow: "rgba(244,114,182,0.32)",
+    chip: "🌈 42° optik yoy", sfxLabel: "Mayin yomg'ir va yorqin ohanglar",
+    metrics: [
+      { label: "Asosiy burchak", val: "42° (Qizil tashqarida)" },
+      { label: "Ikkinchi yoy", val: "51° (Ranglar teskari)" },
+      { label: "Spektr", val: "7 asosiy rang" },
+      { label: "Xavf darajasi", val: "Mutlaqo xavfsiz" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/5/5c/Double-alaskan-rainbow.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/45/Double_Rainbow_on_the_way_Cradle_Mountain.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/cd/Double_rainbow_2.jpg"
+    ],
+    desc: [
+      "Kamalak — Quyosh nuri havodagi millionlab sharsimon yomg'ir tomchilari ichiga kirib, sinishi, ichki devordan ko'zgu kabi qaytishi va tashqariga chiqishda yana sinib yetti xil rang spektriga ajralishi natijasida ko'rinadigan go'zal optik hodisadir.",
+      "Barcha ranglar bir xil burchakda sinmaydi: qizil rang 42° burchakda, binafsha rang esa 40° burchakda qaytadi. Shu sababli kamalakning tashqi cheti doimo qizil, ichki cheti esa binafsha rangda bo'ladi."
+    ],
+    steps: [
+      "Quyosh kuzatuvchining orqa tomonida (ufqdan 42° dan pastda), yomg'ir pardasi esa oldinda bo'lishi kerak.",
+      "Oq quyosh nuri suv tomchisiga kirib sinadi va turli to'lqin uzunlikdagi ranglarga ajraladi (dispersiya).",
+      "Nur tomchi orqa devoridan bir marta qaytsa asosiy kamalak, ikki marta qaytsa xiraroq va ranglari teskari joylashgan «qo'sh kamalak» ko'rinadi."
+    ],
+    records: "Tarixdagi eng uzoq davom etgan kamalak 2017-yilda Tayvandagi tog'larda qayd etilgan — u osmonda 8 soat 58 daqiqa davomida uzluksiz ko'rinib turgan (odatda kamalak 15–30 daqiqa turadi).",
+    safety: "Kamalakni ko'rish mutlaqo xavfsiz. Ikki kamalak orasidagi osmon qismi boshqa joylarga qaraganda qoraroq ko'rinadi — bunga «Aleksandr tasmasi» deyiladi.",
+    facts: [
+      "Kamalak — moddiy jism emas, u faqat sizning ko'zingizga nisbatan hosil bo'ladigan optik tasvirdir; shu bois ikki kishi hech qachon aynan bir xil tomchilardagi kamalakni ko'rmaydi!",
+      "Aslida har bir kamalak to'liq 360° doira shaklida bo'ladi, lekin yer sathi uning pastki yarmini to'sib qo'yadi. Samolyot oynasidan esa to'liq aylana kamalakni ko'rish mumkin.",
+      "To'lin oy kechalarida kuchli sharshara yoki yomg'ir ostida kamdan-kam uchraydigan «tungi oy kamalagi» (moonbow) ham hosil bo'ladi."
+    ]
+  },
+  {
+    id: "meteor", animType: "meteor", sfxType: "meteor", icon: "☄️",
+    title: "Meteor yomg'iri (Yulduz uchishi)", category: "Nur va Kosmos", accent: "#f59e0b", glow: "rgba(245,158,11,0.32)",
+    chip: "☄️ 70 km/sek tezlik", sfxLabel: "Kosmik uchish va yulduz shu'lasi",
+    metrics: [
+      { label: "Kirish tezligi", val: "40 – 72 km/sek" },
+      { label: "Yonish balandligi", val: "80 – 110 km" },
+      { label: "Mashhur oqimlar", val: "Perseidlar, Geminidlar" },
+      { label: "O'lchami", val: "Qum zarrasidek" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/e/e4/Perseid_Meteor_Shower_at_Mojave_National_Preserve_%2851374983157%29_%28cropped%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/89/Perseid_Meteor_Shower_%28NHQ202108100009%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/1c/Perseid_Meteor_Shower_Composite_%2850224080782%29.jpg"
+    ],
+    desc: [
+      "Xalq orasida «yulduz uchishi» deb ataladigan meteor — aslida yulduz emas, balki kometalar va asteroidlar orbitasi bo'ylab sochib ketgan mayda tosh, chang va muz zarrachalarining Yer atmosferasiga kirib yonishidir.",
+      "Har yili ma'lum sanalarda Yer shunday chang bulutlari ichidan o'tadi va osmon bo'ylab soatiga o'nlab, ba'zan yuzlab yorqin chiziqlar — meteor yomg'iri kuzatiladi."
+    ],
+    steps: [
+      "Kometa Quyoshga yaqinlashganda muzlari erib, ortida milliardlab mayda chang zarrachalaridan iborat iz qoldiradi.",
+      "Yer o'z orbitasi bo'ylab harakatlanib shu chang oqimini kesib o'tganda, zarralar atmosferaga soniyasiga 60–70 km tezlikda uriladi.",
+      "Havo siqilishi va ishqalanishdan harorat minglab gradusga yetib, zarracha bir soniyada bug'lanadi va ionlashgan yorqin iz qoldiradi."
+    ],
+    records: "Eng mashhur va barqaror oqimlar: Avgustdagi «Perseidlar» (soatiga 80–100 meteor) va Dekabrdagi «Geminidlar» (soatiga 120+ meteor). 1833-yilgi «Leonidlar» meteor bo'ronida esa soatiga 100 000 ga yaqin meteor yog'ilgan!",
+    safety: "Mayda meteorlar yer yuzasiga yetib kelmay, 80 km balandlikda butunlay yonib kulga aylanadi. Uni kuzatish uchun shahar chiroqlaridan uzoq, qorong'i dala yoki tog'ga chiqish kifoya — teleskop shart emas.",
+    facts: [
+      "Osmonni kesib o'tuvchi yorqin meteorlarning 95 foizi atigi qum donasi yoki guruch kattaligidagi chang bo'lagidir.",
+      "Yerga yetib tushishga ulgurgan yirikroq kosmik toshlar «meteorit» deb ataladi — ular sayyoramizga har kuni tonnalab kosmik chang olib tushadi.",
+      "Meteorning rangi uning tarkibiga bog'liq: natriy sariq, magniy ko'k-yashil, kalsiy esa binafsha iz qoldiradi."
+    ]
+  },
+  {
+    id: "solar_eclipse", animType: "solar_eclipse", sfxType: "aurora", icon: "🌑",
+    title: "To'liq Quyosh tutilishi", category: "Nur va Kosmos", accent: "#fbbf24", glow: "rgba(251,191,36,0.32)",
+    chip: "🌑 Quyosh toji", sfxLabel: "Koinot sukunati va olmos halqa sadosi",
+    metrics: [
+      { label: "To'liq faza", val: "2 – 7.5 daqiqa" },
+      { label: "Toj harorati", val: "1 – 2 mln °C" },
+      { label: "Soya kengligi", val: "100 – 270 km" },
+      { label: "Ajib effekt", val: "«Olmos uzuk»" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/d/dd/2024_Total_Solar_Eclipse_Corona.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/e0/Total_solar_eclipse_ESA425433.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/38/Total_eclipse_of_the_Sun.jpg"
+    ],
+    desc: [
+      "To'liq Quyosh tutilishi — tabiatning eng haybatli kosmik tomoshasi bo'lib, bunda Oy Yer bilan Quyosh o'rtasiga aniq bir chiziqqa tushib, Quyosh diskini butunlay yopib qo'yadi.",
+      "Shu bir necha daqiqa ichida kunduzi havo harorati 5–10 gradusga pasayadi, qushlar uxlab qoladi, ufq bo'ylab 360 gradusli shafaq ko'rinadi va qora Oy atrofida Quyoshning marvariddek tovlanuvchi tashqi toji (korona) porlab chiqadi."
+    ],
+    steps: [
+      "Yangi oy fazasida Oy Yer va Quyosh o'rtasidan o'tadi va uning konussimon soyasi Yer yuzasiga tushadi.",
+      "Soya soatiga 1 700–3 000 km tezlikda yer yuzasi bo'ylab tor yo'lak chizib harakatlanadi.",
+      "Oy Quyoshni to'liq berkitishidan bir soniya oldin va keyin Oy vodiylaridan o'tgan quyosh nuri mashhur «Olmos uzuk» va «Beyli marjonlari» effektini beradi."
+    ],
+    records: "XXI asrdagi eng uzoq to'liq Quyosh tutilishi 2009-yil 22-iyulda kuzatilgan (6 daqiqa 39 soniya). 2024-yil 8-apreldagi Shimoliy Amerika tutilishini esa 30 milliondan ortiq odam jonli tomosha qilgan.",
+    safety: "DIQQAT: Quyosh tutilishining qisman fazalarida Quyoshga oddiy ko'z yoki quyosh ko'zoynagi bilan qarash ko'z to'r pardasini kuydirishi mumkin! Faqat maxsus ISO 12312-2 standartidagi tutilish ko'zoynagidan foydalanish shart (faqat to'liq tutilishning 2–4 daqiqasidagina ko'zoynaksiz qarash mumkin).",
+    facts: [
+      "Quyosh diametri Oydan 400 marta katta, lekin u Yerdan Oydan 400 marta uzoqroqda joylashgan — aynan shu tasodifiy geometrik mutanosiblik tufayli to'liq tutilish yuz beradi.",
+      "1919-yilgi Quyosh tutilishi paytida olimlar yulduz nurlarining Quyosh gravitatsiyasi ta'sirida egilishini o'lchab, Albert Eynshteynning nisbiylik nazariyasini isbotlashgan!",
+      "Oy har yili Yerdan 3,8 sm uzoqlashib bormoqda, shuning uchun taxminan 600 million yildan keyin Yerda to'liq Quyosh tutilishlari butunlay yo'qoladi."
+    ]
+  },
+  {
+    id: "lunar_eclipse", animType: "lunar_eclipse", sfxType: "aurora", icon: "🌕",
+    title: "Qonli Oy (To'liq Oy tutilishi)", category: "Nur va Kosmos", accent: "#ef4444", glow: "rgba(239,68,68,0.32)",
+    chip: "🔴 Mis-qizil Oy", sfxLabel: "Tungi osmon sokinligi",
+    metrics: [
+      { label: "To'liq faza", val: "1 soat 40 min gacha" },
+      { label: "Rang sababi", val: "Reley tarqalishi" },
+      { label: "Ko'rish hududi", val: "Butun tungi yarimshar" },
+      { label: "Xavf darajasi", val: "Ko'z uchun 100% xavfsiz" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/4/4a/Blood_moon_of_September_2025_total_lunar_eclipse.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/45/Blood_Moon.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/52/Red_moon_during_lunar_eclipse.jpg"
+    ],
+    desc: [
+      "To'liq Oy tutilishi («Qonli Oy») — Yer Quyosh bilan To'lin Oy o'rtasiga tushib, Oyga to'g'ridan-to'g'ri Quyosh nurlari tushishini to'sib qo'yganida sodir bo'ladi.",
+      "Biroq Oy osmonda butunlay yo'qolib qolmaydi — aksincha, u sirli to'q qizil, mis yoki to'q sariq rangga kirib porlaydi. Buning sababi Yer atmosferasining ulkan linza vazifasini bajarishidir."
+    ],
+    steps: [
+      "To'lin oy paytida Quyosh, Yer va Oy bir to'g'ri chiziqda joylashadi va Oy Yerning soya konusiga (Umbra) kiradi.",
+      "Quyosh nurlari Yer chetidagi atmosferadan o'tayotganda, qisqa ko'k to'lqinlar atmosferada sochilib ketadi (shu sababli osmon kunduzi ko'k bo'ladi).",
+      "Uzunroq qizil va to'q sariq nurlar esa atmosferadan sinib o'tib, Oygacha yetib boradi va uni qizil rangga bo'yaydi."
+    ],
+    records: "XXI asrdagi eng uzoq to'liq Oy tutilishi 2018-yil 27-iyulda bo'lib o'tgan va to'liq fazasi 1 soat 42 daqiqa 57 soniya davom etgan (O'zbekistonda ham juda tiniq ko'ringan!).",
+    safety: "Quyosh tutilishidan farqli ravishda, Oy tutilishini qurolsiz ko'z bilan, durbin yoki teleskop orqali tomosha qilish mutlaqo xavfsiz.",
+    facts: [
+      "Agar siz Oy tutilishi paytida Oy yuzasida turganingizda edi, boshingiz ustida qora Yer diskini o'rab turgan olovli qizil halqani — Yer yuzidagi barcha quyosh chiqishi va botishlarini bir vaqtda ko'rgan bo'lardingiz!",
+      "Oyning qizillik darajasi Yer atmosferasining tozaligiga bog'liq: yirik vulqon otilishidan keyin atmosferada kul ko'paygani uchun Oy to'q jigarrang-qora tusga kiradi.",
+      "Oy tutilishi Quyosh tutilishidan kamroq sodir bo'lsa ham, uni Yerning butun tungi yarmi ko'ra olgani uchun odamlar uni ko'proq kuzatadilar."
+    ]
+  },
+  {
+    id: "sun_halo", animType: "sun_halo", sfxType: "aurora", icon: "🔆",
+    title: "Quyosh galosi (22° Nur halqasi)", category: "Nur va Kosmos", accent: "#fde047", glow: "rgba(253,224,71,0.3)",
+    chip: "🔆 22° muz kristallari", sfxLabel: "Yuqori qatlam muz kristallari jaranglashi",
+    metrics: [
+      { label: "Halqa radiusi", val: "22° burchak" },
+      { label: "Sababchisi", val: "6-burchakli muz kristallari" },
+      { label: "Balandligi", val: "6 – 12 km (Cirrus)" },
+      { label: "Ob-havo belgisi", val: "Yaqinlashayotgan front" }
+    ],
+    imgs: [
+      "https://upload.wikimedia.org/wikipedia/commons/5/53/Solar_halo_with_circumzenithal_arc.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/b0/Sun_Halo.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/f7/Sun_Halo_2018.jpg"
+    ],
+    desc: [
+      "Quyosh galosi — osmonning 6–12 km balandligidagi yupqa patsimon (Cirrus) bulutlarda muallaq turgan millionlab mikroskopik olti burchakli muz kristallari Quyosh nurini sindirishi va qaytarishi natijasida Quyosh atrofida hosil bo'ladigan yorqin kamalaksimon halqadir.",
+      "Xuddi shunday halqa sovuq kechalarda To'lin Oy atrofida ham («Oy galosi») paydo bo'lishi mumkin."
+    ],
+    steps: [
+      "Troposferaning yuqori sovuq qatlamlarida (–20 °C dan past) suv bug'lari mayda olti qirrali prizma shaklidagi muz kristallariga aylanadi.",
+      "Quyosh nuri bu kristallarning bir qirrasidan kirib, ikkinchi qirrasidan chiqayotganda kamida 22 gradus burchak ostida sinadi.",
+      "Barcha yo'nalishlarda tartibsiz joylashgan kristallar Quyosh atrofida radiusi 22° bo'lgan yorug' doirani hosil qiladi."
+    ],
+    records: "Galo kamalakdan ham tez-tez uchraydi (yiliga 100 martagacha), lekin ko'pchilik Quyosh yorqinligi sabab unga e'tibor bermaydi. Antarktida va Sibirning qattiq sovuqlarida galo bilan birga o'nlab qo'shimcha yoylar va «olmos changi» galosi ham ko'rinadi.",
+    safety: "Quyosh galosini suratga olishda yoki ko'rishda to'g'ridan-to'g'ri Quyosh diskiga qaramaslik kerak — barmog'ingiz yoki daraxt shoxi bilan Quyoshning o'zini to'sib turib halqani tomosha qilish xavfsizroq.",
+    facts: [
+      "Xalq maqollarida «Oy yoki Quyosh atrofida qo'rg'on ko'rinsa, 1–2 kunda yog'ingarchilik bo'ladi» deyiladi — bu ilmiy jihatdan to'g'ri, chunki patsimon bulutlar iliq atmosfera fronti yaqinlashayotganidan darak beradi.",
+      "Qishki sovuqlarda galoning chap va o'ng tomonida ikkita yorqin dog' — «soxta quyoshlar» (parheliya) paydo bo'lib, osmonda go'yo 3 ta Quyosh porlayotgandek ko'rinadi.",
+      "Galoning ichki qismi qizg'ish, tashqi qismi esa ko'kimtir-oq bo'lib, uning ichidagi osmon qismi tashqarisiga qaraganda sezilarli darajada qoraroq ko'rinadi."
+    ]
+  }
+];
+
+/* ================= NAVIGATION & RENDERING ================= */
+let currentCategory = 'all';
+let searchQuery = '';
+let filteredList = [...phenomena];
+
+function makeFallbackSvg(title, color) {
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='800' height='450'>
+    <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0%' stop-color='#060b14'/><stop offset='100%' stop-color='${color}' stop-opacity='0.45'/>
+    </linearGradient></defs>
+    <rect width='800' height='450' fill='url(#g)'/>
+    <text x='50%' y='50%' fill='#edf3fc' font-family='sans-serif' font-size='26' font-weight='bold' text-anchor='middle' dominant-baseline='middle'>${title}</text>
+  </svg>`;
+  return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+}
+
+function renderHub() {
+  const hubGrid = document.getElementById('hub-grid');
+  hubGrid.innerHTML = '';
+  categories.forEach(cat => {
+    const el = document.createElement('div');
+    el.className = 'hub-card';
+    el.style.setProperty('--hub-accent', cat.accent);
+    el.style.setProperty('--hub-glow', cat.glow);
+    el.innerHTML = `
+      <div>
+        <div class="hub-orb">${cat.icon}</div>
+        <h3>${cat.title}</h3>
+        <p>${cat.desc}</p>
+      </div>
+      <div class="hub-foot">
+        <span class="hub-count">${cat.countLabel}</span>
+        <span>Ochish →</span>
+      </div>
+    `;
+    el.addEventListener('mousemove', e => applyTilt(el, e));
+    el.addEventListener('mouseleave', () => resetTilt(el));
+    el.onclick = () => selectCategory(cat.id);
+    hubGrid.appendChild(el);
+  });
+
+  document.getElementById('filters').innerHTML = categories.map(c =>
+    `<button class="filter-btn" data-cat="${c.id}" onclick="selectCategory('${c.id}')">${c.icon} ${c.title}</button>`
+  ).join('');
+}
+
+function applyTilt(el, e) {
+  const r = el.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width;
+  const y = (e.clientY - r.top) / r.height;
+  el.style.setProperty('--mx', (x * 100) + '%');
+  el.style.setProperty('--my', (y * 100) + '%');
+  const rx = (0.5 - y) * 8;
+  const ry = (x - 0.5) * 8;
+  el.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px) scale(1.015)`;
+}
+function resetTilt(el) { el.style.transform = ''; }
+
+function selectCategory(catId) {
+  currentCategory = catId;
+  searchQuery = '';
+  document.getElementById('search-input').value = '';
+
+  document.getElementById('hub-section').classList.add('hidden');
+  const topicsSec = document.getElementById('topics-section');
+  topicsSec.classList.remove('active');
+  void topicsSec.offsetWidth;
+  topicsSec.classList.add('active');
+
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === catId));
+
+  const catObj = categories.find(c => c.id === catId) || categories[0];
+  document.getElementById('cat-banner-title').innerHTML = `${catObj.icon} ${catObj.title}`;
+  document.getElementById('cat-banner-sub').textContent = `${catObj.countLabel} • Rasmlar, jonli mini-video va to'liq ensiklopediya`;
+
+  renderTopicCards();
+  window.scrollTo({ top: document.querySelector('.container').offsetTop - 14, behavior: 'smooth' });
+}
+
+function goHome() {
+  document.getElementById('topics-section').classList.remove('active');
+  document.getElementById('hub-section').classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderTopicCards() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+
+  filteredList = phenomena.filter(item => {
+    const matchCat = currentCategory === 'all' || item.category === currentCategory;
+    const q = searchQuery.trim().toLowerCase();
+    const matchSearch = !q ||
+      item.title.toLowerCase().includes(q) ||
+      item.desc.join(' ').toLowerCase().includes(q) ||
+      item.category.toLowerCase().includes(q);
+    return matchCat && matchSearch;
+  });
+
+  if (filteredList.length === 0) {
+    grid.innerHTML = `<div class="empty-state">🔍 «${searchQuery}» bo'yicha mavzu topilmadi.</div>`;
+    return;
+  }
+
+  filteredList.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.setProperty('--card-accent', item.accent);
+    card.style.setProperty('--card-glow', item.glow);
+    card.innerHTML = `
+      <div class="card-img-wrap">
+        <img src="${item.imgs[0]}" alt="${item.title}" loading="lazy">
+        <div class="card-badges">
+          <span class="badge-num">${idx + 1} / ${filteredList.length}</span>
+          <span class="badge-video"><span class="dot"></span> VIDEO</span>
+        </div>
+        <span class="card-stat-chip">${item.chip}</span>
+      </div>
+      <div class="card-body">
+        <h3><span>${item.icon}</span> ${item.title}</h3>
+        <p>${item.desc[0]}</p>
+        <div class="card-footer">
+          <span>Batafsil & Jonli Video →</span>
+          <span>🔊 Tovushli</span>
+        </div>
+      </div>
+    `;
+    const imgEl = card.querySelector('img');
+    imgEl.onerror = () => { imgEl.src = makeFallbackSvg(item.icon + ' ' + item.title, item.accent); };
+    card.addEventListener('mousemove', e => applyTilt(card, e));
+    card.addEventListener('mouseleave', () => resetTilt(card));
+    card.onclick = () => openModal(item);
+    grid.appendChild(card);
+
+    setTimeout(() => card.classList.add('visible'), idx * 55);
+  });
+}
+
+document.getElementById('search-input').addEventListener('input', e => {
+  searchQuery = e.target.value;
+  renderTopicCards();
+});
+
+function openRandom() {
+  const pool = document.getElementById('topics-section').classList.contains('active') && filteredList.length
+    ? filteredList : phenomena;
+  openModal(pool[Math.floor(Math.random() * pool.length)]);
+}
+
+renderHub();
+
+/* ================= MODAL LOGIC ================= */
+let curItem = null, curSlides = [], curSlideIdx = 0;
+
+function openModal(item) {
+  curItem = item;
+  curSlides = [
+    { type: 'img', src: item.imgs[0] },
+    { type: 'video', thumb: item.imgs[1] || item.imgs[0] },
+    { type: 'img', src: item.imgs[1] },
+    { type: 'img', src: item.imgs[2] }
+  ];
+  curSlideIdx = 0;
+
+  document.getElementById('modal-cat').textContent = `${item.icon} ${item.category}`;
+  document.getElementById('modal-title').textContent = item.title;
+  document.getElementById('sfx-desc').textContent = item.sfxLabel;
+
+  /* 4 Metrics */
+  document.getElementById('metrics-grid').innerHTML = item.metrics.map(m => `
+    <div class="metric-box">
+      <div class="metric-label">${m.label}</div>
+      <div class="metric-val">${m.val}</div>
+    </div>
+  `).join('');
+
+  /* Multi-paragraph Detailed Description */
+  document.getElementById('modal-desc-wrap').innerHTML = item.desc.map(p => `<p>${p}</p>`).join('');
+
+  /* Step-by-step Mechanism */
+  document.getElementById('modal-steps').innerHTML = item.steps.map((s, i) => `
+    <li><span class="step-num">${i + 1}</span><span>${s}</span></li>
+  `).join('');
+
+  /* Records & Safety */
+  document.getElementById('modal-records').textContent = item.records;
+  document.getElementById('modal-safety').textContent = item.safety;
+
+  /* Facts List */
+  document.getElementById('modal-facts').innerHTML = item.facts.map(f => `<li>${f}</li>`).join('');
+
+  /* Thumbnails */
+  const strip = document.getElementById('thumb-strip');
+  strip.innerHTML = '';
+  curSlides.forEach((sl, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'thumb-item' + (i === 0 ? ' active' : '');
+    const img = document.createElement('img');
+    img.src = sl.type === 'video' ? sl.thumb : sl.src;
+    img.alt = item.title;
+    img.onerror = () => { img.src = makeFallbackSvg(item.icon, item.accent); };
+    wrap.appendChild(img);
+
+    if (sl.type === 'video') {
+      const ov = document.createElement('div');
+      ov.className = 'thumb-video-overlay';
+      ov.innerHTML = `<span class="play-ico">▶</span><span>VIDEO</span>`;
+      wrap.appendChild(ov);
+    }
+    wrap.onclick = e => { e.stopPropagation(); setSlide(i); };
+    strip.appendChild(wrap);
+  });
+
+  const nav = document.getElementById('gallery-nav');
+  nav.innerHTML = '';
+  curSlides.forEach((_, i) => {
+    const d = document.createElement('button');
+    if (i === 0) d.classList.add('active');
+    d.onclick = e => { e.stopPropagation(); setSlide(i); };
+    nav.appendChild(d);
+  });
+
+  resetSfxButton();
+  setSlide(0, false);
+  document.getElementById('modal').scrollTop = 0;
+  document.getElementById('overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function setSlide(idx, animate = true) {
+  curSlideIdx = (idx + curSlides.length) % curSlides.length;
+  const slide = curSlides[curSlideIdx];
+  const imgEl = document.getElementById('modal-img');
+  const videoStage = document.getElementById('video-stage');
+  const titleBar = document.getElementById('overlay-title-bar');
+
+  if (slide.type === 'video') {
+    imgEl.style.display = 'none';
+    videoStage.classList.add('active');
+    titleBar.classList.add('hide-for-video');
+    startMiniVideo(curItem.animType);
+  } else {
+    stopMiniVideo();
+    videoStage.classList.remove('active');
+    titleBar.classList.remove('hide-for-video');
+    imgEl.style.display = 'block';
+    if (animate) imgEl.style.opacity = '0';
+    imgEl.src = slide.src;
+    imgEl.onerror = () => { imgEl.src = makeFallbackSvg(curItem.icon + ' ' + curItem.title, curItem.accent); };
+    setTimeout(() => { imgEl.style.opacity = '1'; imgEl.style.transform = 'scale(1.06)'; }, 30);
+  }
+
+  document.querySelectorAll('#thumb-strip .thumb-item').forEach((el, i) => el.classList.toggle('active', i === curSlideIdx));
+  document.querySelectorAll('#gallery-nav button').forEach((el, i) => el.classList.toggle('active', i === curSlideIdx));
+}
+
+function changeSlide(dir) { setSlide(curSlideIdx + dir); }
+
+function stepPhenomenon(dir) {
+  if (!curItem) return;
+  const pool = filteredList.length ? filteredList : phenomena;
+  const next = pool[(pool.indexOf(curItem) + dir + pool.length) % pool.length];
+  stopSfx(); stopMiniVideo(); openModal(next);
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('overlay') || e.target.classList.contains('close-btn') || e.target.classList.contains('modal-close-x')) {
+    document.getElementById('overlay').classList.remove('active');
+    document.body.style.overflow = '';
+    stopSfx(); stopMiniVideo();
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('overlay').classList.contains('active')) return;
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'ArrowRight') changeSlide(1);
+  if (e.key === 'ArrowLeft') changeSlide(-1);
+});
+
+/* ================= PROCEDURAL 60FPS MINI-VIDEO ENGINE ================= */
+const vCanvas = document.getElementById('video-canvas');
+const vCtx = vCanvas.getContext('2d');
+let vRaf = null, vPlaying = false, vTime = 0, vLastTs = 0, vType = 'aurora', vParticles = [];
+const V_DUR = 12;
+
+function initVideoScene(type) {
+  vType = type;
+  const box = document.getElementById('video-stage');
+  vCanvas.width = box.clientWidth || 760;
+  vCanvas.height = box.clientHeight || 340;
+  vParticles = [];
+  const W = vCanvas.width, H = vCanvas.height;
+  for (let i = 0; i < 85; i++) {
+    vParticles.push({
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 4, vy: (Math.random() - 0.5) * 4,
+      life: Math.random(), angle: Math.random() * Math.PI * 2
+    });
+  }
+}
+
+function startMiniVideo(type) {
+  initVideoScene(type);
+  vPlaying = true; vTime = 0; vLastTs = performance.now();
+  document.getElementById('v-play-btn').textContent = '⏸';
+  cancelAnimationFrame(vRaf);
+  vRaf = requestAnimationFrame(renderVideoFrame);
+}
+function stopMiniVideo() { vPlaying = false; cancelAnimationFrame(vRaf); }
+function toggleVideoPlay() {
+  vPlaying = !vPlaying;
+  document.getElementById('v-play-btn').textContent = vPlaying ? '⏸' : '▶';
+  if (vPlaying) { vLastTs = performance.now(); vRaf = requestAnimationFrame(renderVideoFrame); }
+}
+function seekVideo(e) {
+  const rect = e.currentTarget.getBoundingClientRect();
+  vTime = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * V_DUR;
+  updateVideoHud();
+  if (!vPlaying) drawScene(vType, vTime);
+}
+function updateVideoHud() {
+  document.getElementById('v-progress-fill').style.width = ((vTime / V_DUR) * 100) + '%';
+  const s = Math.floor(vTime);
+  document.getElementById('v-time').textContent = `0:${s < 10 ? '0' + s : s} / 0:${V_DUR}`;
+}
+function renderVideoFrame(ts) {
+  if (!vPlaying) return;
+  const dt = Math.min(0.05, (ts - vLastTs) / 1000);
+  vLastTs = ts; vTime = (vTime + dt) % V_DUR;
+  updateVideoHud(); drawScene(vType, vTime);
+  vRaf = requestAnimationFrame(renderVideoFrame);
+}
+
+function drawScene(type, t) {
+  const W = vCanvas.width, H = vCanvas.height;
+  vCtx.clearRect(0, 0, W, H);
+
+  if (type === 'aurora') {
+    const g = vCtx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, '#020713'); g.addColorStop(1, '#091b2c');
+    vCtx.fillStyle = g; vCtx.fillRect(0, 0, W, H);
+    vParticles.forEach(p => {
+      vCtx.fillStyle = `rgba(255,255,255,${0.35 + 0.5 * Math.sin(t * 2 + p.x)})`;
+      vCtx.fillRect(p.x, p.y * 0.7, 1.8, 1.8);
+    });
+    for (let l = 0; l < 4; l++) {
+      vCtx.beginPath();
+      for (let x = 0; x <= W; x += 12) {
+        const y = H * 0.32 + Math.sin(x * 0.012 + t * 1.4 + l) * 32 + Math.cos(x * 0.02 - t) * 16 + l * 14;
+        if (x === 0) vCtx.moveTo(x, y); else vCtx.lineTo(x, y);
+      }
+      vCtx.lineTo(W, H * 0.8); vCtx.lineTo(0, H * 0.8); vCtx.closePath();
+      const ag = vCtx.createLinearGradient(0, H * 0.15, 0, H * 0.78);
+      const cols = ['rgba(52,211,153,0.45)', 'rgba(34,211,238,0.35)', 'rgba(168,85,247,0.3)', 'rgba(16,185,129,0.4)'];
+      ag.addColorStop(0, 'transparent'); ag.addColorStop(0.45, cols[l]); ag.addColorStop(1, 'transparent');
+      vCtx.fillStyle = ag; vCtx.fill();
+    }
+    vCtx.fillStyle = '#040a14';
+    vCtx.beginPath(); vCtx.moveTo(0, H); vCtx.lineTo(0, H*0.78); vCtx.lineTo(W*0.2, H*0.64);
+    vCtx.lineTo(W*0.42, H*0.79); vCtx.lineTo(W*0.65, H*0.58); vCtx.lineTo(W*0.86, H*0.76);
+    vCtx.lineTo(W, H*0.68); vCtx.lineTo(W, H); vCtx.fill();
+  }
+  else if (type === 'volcano' || type === 'mud_volcano') {
+    const isMud = type === 'mud_volcano';
+    const g = vCtx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, isMud ? '#131d19' : '#18080c'); g.addColorStop(1, '#09090d');
+    vCtx.fillStyle = g; vCtx.fillRect(0, 0, W, H);
+    const glow = vCtx.createRadialGradient(W*0.5, H*0.58, 10, W*0.5, H*0.58, 180 + Math.sin(t*6)*20);
+    glow.addColorStop(0, isMud ? 'rgba(163,230,53,0.45)' : 'rgba(251,113,133,0.75)');
+    glow.addColorStop(1, 'transparent');
+    vCtx.fillStyle = glow; vCtx.fillRect(0, 0, W, H);
+    vParticles.forEach(p => {
+      p.life = (p.life + 0.018) % 1; const lt = p.life;
+      const px = W * 0.5 + (p.vx * 28) * lt, py = H * 0.56 - (210 * lt - 230 * lt * lt);
+      vCtx.beginPath(); vCtx.arc(px, py, (isMud ? 5 : 3) * (1 - lt * 0.5), 0, Math.PI * 2);
+      vCtx.fillStyle = isMud ? `rgba(190,242,100,${1 - lt})` : `rgba(255,${Math.floor(180 - lt*140)},30,${1 - lt})`;
+      vCtx.fill();
+    });
+    vCtx.fillStyle = '#0f0c12';
+    vCtx.beginPath(); vCtx.moveTo(0, H); vCtx.lineTo(W*0.38, H*0.56); vCtx.lineTo(W*0.62, H*0.56); vCtx.lineTo(W, H); vCtx.fill();
+    vCtx.fillStyle = isMud ? '#84cc16' : '#f97316'; vCtx.fillRect(W*0.42, H*0.55, W*0.16, 6);
+  }
+  else if (type === 'lightning' || type === 'hail' || type === 'mammatus') {
+    const flash = (Math.sin(t * 7.5) > 0.91 || Math.sin(t * 13) > 0.95) ? 1 : 0;
+    vCtx.fillStyle = flash ? '#1e3a5f' : '#070f1d'; vCtx.fillRect(0, 0, W, H);
+    vCtx.strokeStyle = 'rgba(125,211,252,0.45)';
+    vParticles.forEach(p => {
+      p.y = (p.y + (type === 'hail' ? 9 : 12)) % H; p.x = (p.x - 2 + W) % W;
+      if (type === 'hail') {
+        vCtx.beginPath(); vCtx.arc(p.x, p.y, 3.2, 0, Math.PI * 2); vCtx.fillStyle = '#e0f2fe'; vCtx.fill();
+      } else { vCtx.beginPath(); vCtx.moveTo(p.x, p.y); vCtx.lineTo(p.x - 4, p.y + 14); vCtx.stroke(); }
+    });
+    for (let i = 0; i < 8; i++) {
+      vCtx.beginPath();
+      vCtx.arc((i / 7) * W + Math.sin(t + i) * 14, type === 'mammatus' ? 70 + Math.sin(i)*12 : 42, 68, 0, Math.PI * 2);
+      vCtx.fillStyle = type === 'mammatus' ? 'rgba(107,33,168,0.55)' : (flash ? '#475569' : '#111b2e');
+      vCtx.fill();
+    }
+    if (flash && type !== 'mammatus') {
+      let lx = W * (0.25 + ((Math.floor(t * 5) % 3) * 0.25)), ly = 50;
+      vCtx.beginPath(); vCtx.moveTo(lx, ly);
+      while (ly < H * 0.92) { lx += (Math.random() - 0.5) * 44; ly += 22; vCtx.lineTo(lx, ly); }
+      vCtx.strokeStyle = '#e0f2fe'; vCtx.lineWidth = 3;
+      vCtx.shadowColor = '#38bdf8'; vCtx.shadowBlur = 18; vCtx.stroke();
+      vCtx.shadowBlur = 0; vCtx.lineWidth = 1;
+    }
+  }
+  else if (type === 'tornado' || type === 'hurricane') {
+    vCtx.fillStyle = '#0a101d'; vCtx.fillRect(0, 0, W, H);
+    if (type === 'hurricane') {
+      vCtx.save(); vCtx.translate(W/2, H/2); vCtx.rotate(t * 1.4);
+      for (let arm = 0; arm < 5; arm++) {
+        vCtx.rotate((Math.PI * 2) / 5);
+        for (let r = 24; r < 170; r += 8) {
+          const ang = r * 0.032;
+          vCtx.beginPath(); vCtx.arc(Math.cos(ang)*r, Math.sin(ang)*r, 14 + r*0.07, 0, Math.PI*2);
+          vCtx.fillStyle = `rgba(186,230,253,${0.26 - r*0.0011})`; vCtx.fill();
+        }
+      }
+      vCtx.beginPath(); vCtx.arc(0, 0, 22, 0, Math.PI * 2); vCtx.fillStyle = '#08182e'; vCtx.fill(); vCtx.restore();
+    } else {
+      for (let y = 40; y < H - 30; y += 6) {
+        const prog = (y - 40) / (H - 70), w = (1 - prog * 0.85) * 85 + 8;
+        const cx = W * 0.5 + Math.sin(y * 0.04 - t * 6) * (12 + prog * 18);
+        vCtx.beginPath(); vCtx.ellipse(cx, y, w, 9, 0, 0, Math.PI * 2);
+        vCtx.fillStyle = `rgba(148,163,184,${0.28 + Math.sin(y*0.1 - t*10)*0.1})`; vCtx.fill();
+      }
+      vParticles.forEach(p => {
+        p.angle += 0.12; const py = (p.y % (H - 60)) + 40;
+        const rx = (1 - (py - 40) / H) * 75 + 22;
+        vCtx.fillStyle = '#cbd5e1'; vCtx.fillRect(W * 0.5 + Math.cos(p.angle) * rx, py, 3, 3);
+      });
+    }
+  }
+  else if (type === 'sandstorm') {
+    const g = vCtx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, '#1e293b'); g.addColorStop(1, '#92400e');
+    vCtx.fillStyle = g; vCtx.fillRect(0, 0, W, H);
+    for (let i = 0; i < 14; i++) {
+      const cx = ((i * 80 + t * 90) % (W + 140)) - 70, cy = H * 0.58 + Math.sin(i + t * 2) * 20;
+      vCtx.beginPath(); vCtx.arc(cx, cy, 95, 0, Math.PI * 2);
+      vCtx.fillStyle = 'rgba(217,119,6,0.38)'; vCtx.fill();
+    }
+    vParticles.forEach(p => { p.x = (p.x + 11) % W; vCtx.fillStyle = 'rgba(253,186,116,0.55)'; vCtx.fillRect(p.x, p.y, 4, 2); });
+  }
+  else if (type === 'tsunami' || type === 'bioluminescence' || type === 'whirlpool') {
+    const isBio = type === 'bioluminescence';
+    vCtx.fillStyle = isBio ? '#020714' : '#04162b'; vCtx.fillRect(0, 0, W, H);
+    if (type === 'whirlpool') {
+      vCtx.save(); vCtx.translate(W/2, H/2);
+      for (let r = 18; r < 180; r += 11) {
+        vCtx.beginPath(); vCtx.arc(0, 0, r, t*2 + r*0.05, t*2 + r*0.05 + Math.PI * 1.45);
+        vCtx.strokeStyle = `rgba(34,211,238,${0.8 - r/230})`; vCtx.lineWidth = 4; vCtx.stroke();
+      }
+      vCtx.restore();
+    } else {
+      for (let l = 0; l < 4; l++) {
+        vCtx.beginPath(); const baseH = H * (0.45 + l * 0.12);
+        for (let x = 0; x <= W; x += 10) {
+          const y = baseH + Math.sin(x * 0.02 - t * (3 + l * 0.7) + l) * (26 - l * 3);
+          if (x === 0) vCtx.moveTo(x, y); else vCtx.lineTo(x, y);
+        }
+        vCtx.lineTo(W, H); vCtx.lineTo(0, H); vCtx.closePath();
+        vCtx.fillStyle = isBio ? 'rgba(15,23,42,0.85)' : `rgba(8,145,178,${0.32 + l * 0.14})`; vCtx.fill();
+        if (isBio) {
+          vCtx.strokeStyle = `rgba(59,130,246,${0.9 - l*0.15})`; vCtx.lineWidth = 3;
+          vCtx.shadowColor = '#38bdf8'; vCtx.shadowBlur = 14; vCtx.stroke(); vCtx.shadowBlur = 0;
+        }
+      }
+    }
+  }
+  else if (type === 'geyser') {
+    vCtx.fillStyle = '#0b1926'; vCtx.fillRect(0, 0, W, H);
+    const jetH = 40 + ((Math.sin(t * 1.4) + 1) / 2) * 210;
+    vParticles.forEach(p => {
+      p.life = (p.life + 0.025) % 1;
+      vCtx.beginPath(); vCtx.arc(W * 0.5 + (p.vx * 10) * p.life, H * 0.82 - p.life * jetH, 4 + p.life * 14, 0, Math.PI * 2);
+      vCtx.fillStyle = `rgba(224,242,254,${(1 - p.life) * 0.55})`; vCtx.fill();
+    });
+    vCtx.fillStyle = '#1e293b'; vCtx.fillRect(0, H * 0.82, W, H * 0.18);
+  }
+  else if (type === 'glacier' || type === 'avalanche') {
+    vCtx.fillStyle = '#0a192f'; vCtx.fillRect(0, 0, W, H);
+    vCtx.fillStyle = '#bae6fd';
+    vCtx.beginPath(); vCtx.moveTo(0, H*0.85); vCtx.lineTo(W*0.38, H*0.25); vCtx.lineTo(W*0.65, H*0.75);
+    vCtx.lineTo(W, H*0.85); vCtx.lineTo(W, H); vCtx.lineTo(0, H); vCtx.fill();
+    vParticles.forEach(p => {
+      p.life = (p.life + 0.018) % 1;
+      vCtx.beginPath(); vCtx.arc(W * 0.35 + p.life * W * 0.45, H * 0.3 + p.life * H * 0.55 + Math.sin(p.life * 10) * 8, 6 + p.life * 12, 0, Math.PI * 2);
+      vCtx.fillStyle = `rgba(240,249,255,${1 - p.life})`; vCtx.fill();
+    });
+  }
+  else if (type === 'earthquake' || type === 'sinkhole') {
+    vCtx.fillStyle = '#091524'; vCtx.fillRect(0, 0, W, H);
+    for (let i = 0; i < 5; i++) {
+      const r = ((t * 55 + i * 45) % 220);
+      vCtx.beginPath(); vCtx.ellipse(W/2, H/2, r * 1.4, r * 0.75, 0, 0, Math.PI * 2);
+      vCtx.strokeStyle = type === 'sinkhole' ? `rgba(45,212,191,${1 - r/220})` : `rgba(251,146,60,${1 - r/220})`;
+      vCtx.lineWidth = 3; vCtx.stroke();
+    }
+  }
+  else if (type === 'methane') {
+    const g = vCtx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, '#0c4a6e'); g.addColorStop(1, '#04121f');
+    vCtx.fillStyle = g; vCtx.fillRect(0, 0, W, H);
+    for (let i = 0; i < 24; i++) {
+      const bx = (i * 47 % (W - 80)) + 40, by = H * 0.25 + ((i * 29) % (H * 0.6));
+      const bw = 22 + (i % 4) * 12 + Math.sin(t * 2 + i) * 3;
+      vCtx.beginPath(); vCtx.ellipse(bx, by, bw, bw * 0.36, 0, 0, Math.PI * 2);
+      vCtx.fillStyle = 'rgba(224,242,254,0.72)'; vCtx.fill();
+      vCtx.strokeStyle = '#7dd3fc'; vCtx.lineWidth = 1.2; vCtx.stroke();
+    }
+  }
+  else if (type === 'rainbow' || type === 'sun_halo') {
+    const g = vCtx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, '#0c2340'); g.addColorStop(1, '#1e3a5f');
+    vCtx.fillStyle = g; vCtx.fillRect(0, 0, W, H);
+    ['#ef4444','#f97316','#eab308','#22c55e','#3b82f6','#6366f1','#a855f7'].forEach((col, i) => {
+      vCtx.beginPath();
+      if (type === 'sun_halo') vCtx.arc(W/2, H/2, 105 - i * 4, 0, Math.PI * 2);
+      else vCtx.arc(W/2, H * 0.92, 230 - i * 8, Math.PI, 0);
+      vCtx.strokeStyle = col; vCtx.globalAlpha = 0.55 + 0.2 * Math.sin(t * 2); vCtx.lineWidth = 6; vCtx.stroke();
+    });
+    vCtx.globalAlpha = 1;
+    if (type === 'sun_halo') {
+      vCtx.beginPath(); vCtx.arc(W/2, H/2, 22, 0, Math.PI * 2);
+      vCtx.fillStyle = '#fef08a'; vCtx.shadowColor = '#fde047'; vCtx.shadowBlur = 35; vCtx.fill(); vCtx.shadowBlur = 0;
+    }
+  }
+  else if (type === 'meteor') {
+    vCtx.fillStyle = '#030612'; vCtx.fillRect(0, 0, W, H);
+    vParticles.forEach(p => { vCtx.fillStyle = `rgba(255,255,255,${0.3 + 0.5*Math.sin(t*3 + p.x)})`; vCtx.fillRect(p.x, p.y, 1.5, 1.5); });
+    for (let m = 0; m < 5; m++) {
+      const prog = (t * 0.45 + m * 0.22) % 1, sx = W * (0.2 + m * 0.16) + prog * 280, sy = -20 + prog * 340;
+      const mg = vCtx.createLinearGradient(sx, sy, sx - 90, sy - 90);
+      mg.addColorStop(0, '#fef08a'); mg.addColorStop(1, 'transparent');
+      vCtx.beginPath(); vCtx.moveTo(sx, sy); vCtx.lineTo(sx - 90, sy - 90);
+      vCtx.strokeStyle = mg; vCtx.lineWidth = 3; vCtx.stroke();
+    }
+  }
+  else if (type === 'solar_eclipse' || type === 'lunar_eclipse') {
+    vCtx.fillStyle = '#02050f'; vCtx.fillRect(0, 0, W, H);
+    vParticles.forEach(p => { vCtx.fillStyle = 'rgba(255,255,255,0.45)'; vCtx.fillRect(p.x, p.y, 1.5, 1.5); });
+    if (type === 'solar_eclipse') {
+      const cg = vCtx.createRadialGradient(W/2, H/2, 46, W/2, H/2, 165 + Math.sin(t*3)*10);
+      cg.addColorStop(0, 'rgba(254,240,138,0.95)'); cg.addColorStop(0.35, 'rgba(251,191,36,0.35)'); cg.addColorStop(1, 'transparent');
+      vCtx.fillStyle = cg; vCtx.fillRect(0, 0, W, H);
+      vCtx.beginPath(); vCtx.arc(W/2, H/2, 54, 0, Math.PI * 2); vCtx.fillStyle = '#030712'; vCtx.fill();
+      const ang = t * 0.6;
+      vCtx.beginPath(); vCtx.arc(W/2 + Math.cos(ang)*54, H/2 + Math.sin(ang)*54, 7, 0, Math.PI*2);
+      vCtx.fillStyle = '#fff'; vCtx.shadowColor = '#fde047'; vCtx.shadowBlur = 22; vCtx.fill(); vCtx.shadowBlur = 0;
+    } else {
+      const mg = vCtx.createRadialGradient(W/2, H/2, 10, W/2, H/2, 68);
+      mg.addColorStop(0, '#ef4444'); mg.addColorStop(0.8, '#991b1b'); mg.addColorStop(1, '#450a0a');
+      vCtx.beginPath(); vCtx.arc(W/2, H/2, 62, 0, Math.PI * 2);
+      vCtx.fillStyle = mg; vCtx.shadowColor = '#dc2626'; vCtx.shadowBlur = 35; vCtx.fill(); vCtx.shadowBlur = 0;
+    }
+  }
+}
+
+/* ================= FLOATING HEADER ICONS & BACKGROUND PARTICLES ================= */
+const hdr = document.getElementById('hdr');
+['⚡','🌋','🌌','🌈','🌪️','🌊','☄️','❄️','✨','♨️'].forEach((ico, idx, arr) => {
+  for (let k = 0; k < 2; k++) {
+    if (idx * 2 + k >= 14) return;
+    const el = document.createElement('span');
+    el.className = 'float-icon'; el.textContent = ico;
+    el.style.left = (4 + Math.random() * 90) + '%';
+    el.style.fontSize = (1.1 + Math.random() * 0.9) + 'rem';
+    el.style.animationDuration = (4 + Math.random() * 4.5) + 's';
+    el.style.animationDelay = (Math.random() * 5) + 's';
+    hdr.appendChild(el);
+  }
+});
+
+const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
+let W, H, dots = [], flashAlpha = 0;
+function resizeBg() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resizeBg(); window.addEventListener('resize', resizeBg);
+for (let i = 0; i < 65; i++) {
+  dots.push({ x: Math.random() * W, y: Math.random() * H, r: 1 + Math.random() * 2.2,
+    vx: (Math.random() - 0.5) * 0.45, vy: (Math.random() - 0.5) * 0.45, hue: [195, 160, 270][i % 3], a: 0.25 + Math.random() * 0.5 });
+}
+function animateBg() {
+  ctx.clearRect(0, 0, W, H);
+  if (flashAlpha > 0.005) { ctx.fillStyle = `rgba(186,230,253,${flashAlpha})`; ctx.fillRect(0, 0, W, H); flashAlpha *= 0.88; }
+  else if (Math.random() < 0.0015) flashAlpha = 0.06;
+  dots.forEach(d => {
+    ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+    ctx.fillStyle = `hsla(${d.hue},85%,70%,${d.a})`; ctx.fill();
+    d.x += d.vx; d.y += d.vy;
+    if (d.x < 0 || d.x > W) d.vx *= -1; if (d.y < 0 || d.y > H) d.vy *= -1;
+  });
+  for (let i = 0; i < dots.length; i++) {
+    for (let j = i + 1; j < dots.length; j++) {
+      const dist = Math.hypot(dots[i].x - dots[j].x, dots[i].y - dots[j].y);
+      if (dist < 115) {
+        ctx.beginPath(); ctx.moveTo(dots[i].x, dots[i].y); ctx.lineTo(dots[j].x, dots[j].y);
+        ctx.strokeStyle = `rgba(56,189,248,${0.12 * (1 - dist / 115)})`; ctx.lineWidth = 0.6; ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(animateBg);
+}
+animateBg();
+
+/* ================= WEB AUDIO API SOUND ENGINE ================= */
+let audioCtx = null, noiseBuffer = null;
+function ensureAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  if (!noiseBuffer) {
+    const len = audioCtx.sampleRate * 4;
+    noiseBuffer = audioCtx.createBuffer(1, len, audioCtx.sampleRate);
+    const data = noiseBuffer.getChannelData(0);
+    let lastOut = 0;
+    for (let i = 0; i < len; i++) {
+      const white = Math.random() * 2 - 1;
+      data[i] = (lastOut + 0.04 * white) / 1.04; lastOut = data[i]; data[i] *= 2.5;
+    }
+  }
+  return audioCtx;
+}
+
+const ambientModes = [
+  { id: 'rain', label: "🌧️ Yomg'ir foni" },
+  { id: 'ocean', label: "🌊 Okean to'lqini" },
+  { id: 'aurora', label: "🌌 Kosmik yog'du" }
+];
+let ambientIdx = 0, ambientPlaying = false, ambientNodes = [];
+
+function startAmbient() {
+  stopAmbientNodes();
+  const c = ensureAudio(), mode = ambientModes[ambientIdx].id, master = c.createGain();
+  master.gain.setValueAtTime(0.001, c.currentTime);
+  master.gain.exponentialRampToValueAtTime(0.26, c.currentTime + 1.1);
+  master.connect(c.destination);
+  if (mode === 'aurora') {
+    [110, 164.81, 220, 277.18].forEach((f, idx) => {
+      const osc = c.createOscillator(), g = c.createGain();
+      osc.type = idx % 2 === 0 ? 'sine' : 'triangle'; osc.frequency.value = f; g.gain.value = 0.05;
+      osc.connect(g); g.connect(master); osc.start(); ambientNodes.push(osc);
+    });
+    ambientNodes.push(master);
+  } else {
+    const src = c.createBufferSource(); src.buffer = noiseBuffer; src.loop = true;
+    const filter = c.createBiquadFilter();
+    if (mode === 'rain') { filter.type = 'bandpass'; filter.frequency.value = 1100; filter.Q.value = 0.5; }
+    else {
+      filter.type = 'lowpass'; filter.frequency.value = 420;
+      const lfo = c.createOscillator(), lg = c.createGain();
+      lfo.frequency.value = 0.14; lg.gain.value = 250;
+      lfo.connect(lg); lg.connect(filter.frequency); lfo.start(); ambientNodes.push(lfo);
+    }
+    src.connect(filter); filter.connect(master); src.start(); ambientNodes.push(src, master);
+  }
+}
+function stopAmbientNodes() { ambientNodes.forEach(n => { try { if (n.stop) n.stop(); n.disconnect(); } catch (e) {} }); ambientNodes = []; }
+function toggleMusic() {
+  const btn = document.getElementById('music-btn'), icon = document.getElementById('music-icon'), eq = document.getElementById('eq-bars');
+  if (!ambientPlaying) {
+    startAmbient(); ambientPlaying = true; icon.style.display = 'none'; eq.classList.add('on'); btn.classList.add('playing');
+    showToast(`🔊 ${ambientModes[ambientIdx].label} yoqildi`);
+  } else {
+    stopAmbientNodes(); ambientPlaying = false; icon.style.display = ''; eq.classList.remove('on'); btn.classList.remove('playing');
+    showToast("🔇 Fon tovushi o'chirildi");
+  }
+}
+function cycleAmbient() {
+  ambientIdx = (ambientIdx + 1) % ambientModes.length;
+  document.getElementById('ambient-mode-btn').textContent = ambientModes[ambientIdx].label;
+  if (ambientPlaying) { startAmbient(); showToast(`🎧 Rejim: ${ambientModes[ambientIdx].label}`); }
+  else toggleMusic();
+}
+function showToast(msg) {
+  const t = document.getElementById('music-toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(window._toastTimer); window._toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+let sfxNodes = [], sfxTimer = null, sfxActive = false;
+function stopSfx() {
+  clearTimeout(sfxTimer); sfxNodes.forEach(n => { try { if (n.stop) n.stop(); n.disconnect(); } catch (e) {} });
+  sfxNodes = []; sfxActive = false; resetSfxButton();
+}
+function resetSfxButton() {
+  const btn = document.getElementById('sfx-play-btn'); if (!btn) return;
+  btn.classList.remove('playing');
+  document.getElementById('sfx-btn-icon').textContent = '🔊';
+  document.getElementById('sfx-btn-text').textContent = 'Hodisa tovushi';
+}
+function playCurrentPhenomenonSound() {
+  if (!curItem) return;
+  if (sfxActive) { stopSfx(); return; }
+  const c = ensureAudio(), now = c.currentTime, dur = 3.8;
+  sfxActive = true;
+  document.getElementById('sfx-play-btn').classList.add('playing');
+  document.getElementById('sfx-btn-icon').textContent = '⏹';
+  document.getElementById('sfx-btn-text').textContent = 'Ijro etilmoqda...';
+  const out = c.createGain(); out.connect(c.destination); sfxNodes.push(out);
+  const st = curItem.sfxType;
+
+  if (st === 'lightning') {
+    const crack = c.createBufferSource(); crack.buffer = noiseBuffer;
+    const hp = c.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 1600;
+    const cg = c.createGain(); cg.gain.setValueAtTime(0.6, now); cg.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+    crack.connect(hp); hp.connect(cg); cg.connect(out); crack.start(now); crack.stop(now + 0.4);
+    const r = c.createBufferSource(); r.buffer = noiseBuffer;
+    const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.setValueAtTime(220, now+0.15); lp.frequency.exponentialRampToValueAtTime(55, now+dur);
+    const rg = c.createGain(); rg.gain.setValueAtTime(0.01, now); rg.gain.linearRampToValueAtTime(0.9, now+0.25); rg.gain.exponentialRampToValueAtTime(0.01, now+dur);
+    r.connect(lp); lp.connect(rg); rg.connect(out); r.start(now); r.stop(now + dur); sfxNodes.push(crack, r);
+  } else if (st === 'rumble') {
+    const s = c.createBufferSource(); s.buffer = noiseBuffer; s.loop = true;
+    const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 180;
+    const g = c.createGain(); g.gain.setValueAtTime(0.02, now); g.gain.linearRampToValueAtTime(0.85, now+0.7); g.gain.exponentialRampToValueAtTime(0.01, now+dur);
+    s.connect(lp); lp.connect(g); g.connect(out); s.start(now); s.stop(now + dur); sfxNodes.push(s);
+  } else if (st === 'wind' || st === 'rain') {
+    const s = c.createBufferSource(); s.buffer = noiseBuffer; s.loop = true;
+    const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = st === 'wind' ? 3.2 : 0.7;
+    bp.frequency.setValueAtTime(st === 'wind' ? 240 : 1200, now);
+    if (st === 'wind') { bp.frequency.linearRampToValueAtTime(780, now + 1.8); bp.frequency.linearRampToValueAtTime(240, now + dur); }
+    const g = c.createGain(); g.gain.setValueAtTime(0.02, now); g.gain.linearRampToValueAtTime(0.65, now + 0.8); g.gain.exponentialRampToValueAtTime(0.01, now + dur);
+    s.connect(bp); bp.connect(g); g.connect(out); s.start(now); s.stop(now + dur); sfxNodes.push(s);
+  } else if (st === 'ocean' || st === 'geyser') {
+    const s = c.createBufferSource(); s.buffer = noiseBuffer; s.loop = true;
+    const f = c.createBiquadFilter(); f.type = st === 'geyser' ? 'bandpass' : 'lowpass';
+    f.frequency.setValueAtTime(st === 'geyser' ? 500 : 200, now);
+    f.frequency.exponentialRampToValueAtTime(st === 'geyser' ? 2500 : 850, now + 1.2);
+    f.frequency.exponentialRampToValueAtTime(st === 'geyser' ? 850 : 160, now + dur);
+    const g = c.createGain(); g.gain.setValueAtTime(0.02, now); g.gain.linearRampToValueAtTime(0.75, now + 1.0); g.gain.exponentialRampToValueAtTime(0.01, now + dur);
+    s.connect(f); f.connect(g); g.connect(out); s.start(now); s.stop(now + dur); sfxNodes.push(s);
+  } else {
+    const notes = st === 'meteor' ? [880, 659.25, 523.25, 392] : [261.63, 329.63, 392, 523.25];
+    notes.forEach((freq, i) => {
+      const osc = c.createOscillator(), g = c.createGain();
+      osc.type = 'sine'; osc.frequency.setValueAtTime(freq, now + i * 0.35);
+      if (st === 'meteor') osc.frequency.exponentialRampToValueAtTime(freq * 0.45, now + i * 0.35 + 0.8);
+      g.gain.setValueAtTime(0.001, now + i * 0.35); g.gain.linearRampToValueAtTime(0.18, now + i * 0.35 + 0.14);
+      g.gain.exponentialRampToValueAtTime(0.001, now + dur);
+      osc.connect(g); g.connect(out); osc.start(now + i * 0.35); osc.stop(now + dur); sfxNodes.push(osc);
+    });
+  }
+  sfxTimer = setTimeout(() => stopSfx(), dur * 1000);
+}
+</script>
+</body>
+</html>
